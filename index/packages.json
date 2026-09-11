@@ -199,6 +199,17 @@
         "design-page",
         "diagnose-usability"
       ]
+    },
+    {
+      "domain_id": "workplace-communication",
+      "package_id": "workplace-language",
+      "title": "职场模糊表达与专业化解释术语包",
+      "status": "published",
+      "term_path": "terms/workplace.json",
+      "intents": [
+        "clarify-workplace-language",
+        "rewrite-workplace-request"
+      ]
     }
   ]
 }
