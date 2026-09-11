@@ -4,7 +4,7 @@
   "domain_id": "math-chemistry-statistics",
   "title": "数理/化学/统计领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

@@ -4,7 +4,7 @@
   "domain_id": "news-media-advertising",
   "title": "新闻/传媒/广告领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

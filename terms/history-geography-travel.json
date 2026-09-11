@@ -4,7 +4,7 @@
   "domain_id": "history-geography-travel",
   "title": "历史/地理/旅游领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

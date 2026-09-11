@@ -4,7 +4,7 @@
   "domain_id": "language-literature-writing",
   "title": "语言/文学/写作领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

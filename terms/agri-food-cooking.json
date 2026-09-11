@@ -4,7 +4,7 @@
   "domain_id": "agri-food-cooking",
   "title": "农林/食品/烹饪领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

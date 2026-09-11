@@ -4,7 +4,7 @@
   "domain_id": "communications-electronics-hardware",
   "title": "通信/电子/硬件工程领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

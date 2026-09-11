@@ -4,7 +4,7 @@
   "domain_id": "biology-medicine-health",
   "title": "生物/医学/健康领域需求澄清术语包（草案）",
   "version": "0.1.0",
-  "status": "published",
+  "status": "draft",
   "intents": [
     {
       "id": "design",

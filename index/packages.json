@@ -5,7 +5,7 @@
       "domain_id": "agri-food-cooking",
       "package_id": "agri-food-cooking-core",
       "title": "农林/食品/烹饪领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/agri-food-cooking.json",
       "intents": [
         "design",
@@ -28,7 +28,7 @@
       "domain_id": "architecture-civil-space",
       "package_id": "architecture-civil-space-core",
       "title": "建筑/土木/空间领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/architecture-civil-space.json",
       "intents": [
         "design",
@@ -39,7 +39,7 @@
       "domain_id": "arts-aesthetics-design",
       "package_id": "arts-aesthetics-design-core",
       "title": "艺术/美学/传统设计领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/arts-aesthetics-design.json",
       "intents": [
         "design",
@@ -50,7 +50,7 @@
       "domain_id": "astronomy-earth-environment",
       "package_id": "astronomy-earth-environment-core",
       "title": "天文/地学/环境领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/astronomy-earth-environment.json",
       "intents": [
         "design",
@@ -72,7 +72,7 @@
       "domain_id": "biology-medicine-health",
       "package_id": "biology-medicine-health-core",
       "title": "生物/医学/健康领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/biology-medicine-health.json",
       "intents": [
         "design",
@@ -83,7 +83,7 @@
       "domain_id": "communications-electronics-hardware",
       "package_id": "communications-electronics-hardware-core",
       "title": "通信/电子/硬件工程领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/communications-electronics-hardware.json",
       "intents": [
         "design",
@@ -94,7 +94,7 @@
       "domain_id": "economics-management-finance",
       "package_id": "economics-management-finance-core",
       "title": "经济/管理/金融领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/economics-management-finance.json",
       "intents": [
         "design",
@@ -105,7 +105,7 @@
       "domain_id": "education-sports",
       "package_id": "education-sports-core",
       "title": "教育/体育/运动领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/education-sports.json",
       "intents": [
         "design",
@@ -116,7 +116,7 @@
       "domain_id": "history-geography-travel",
       "package_id": "history-geography-travel-core",
       "title": "历史/地理/旅游领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/history-geography-travel.json",
       "intents": [
         "design",
@@ -127,7 +127,7 @@
       "domain_id": "industrial-mechanical-manufacturing",
       "package_id": "industrial-mechanical-manufacturing-core",
       "title": "工业/机械/制造领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/industrial-mechanical-manufacturing.json",
       "intents": [
         "design",
@@ -138,7 +138,7 @@
       "domain_id": "language-literature-writing",
       "package_id": "language-literature-writing-core",
       "title": "语言/文学/写作领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/language-literature-writing.json",
       "intents": [
         "design",
@@ -160,7 +160,7 @@
       "domain_id": "math-chemistry-statistics",
       "package_id": "math-chemistry-statistics-core",
       "title": "数理/化学/统计领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/math-chemistry-statistics.json",
       "intents": [
         "design",
@@ -171,7 +171,7 @@
       "domain_id": "news-media-advertising",
       "package_id": "news-media-advertising-core",
       "title": "新闻/传媒/广告领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/news-media-advertising.json",
       "intents": [
         "design",
@@ -182,7 +182,7 @@
       "domain_id": "philosophy-psychology-religion",
       "package_id": "philosophy-psychology-religion-core",
       "title": "哲学/心理/宗教领域需求澄清术语包（草案）",
-      "status": "published",
+      "status": "draft",
       "term_path": "terms/philosophy-psychology-religion.json",
       "intents": [
         "design",
