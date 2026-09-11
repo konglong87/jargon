@@ -108,6 +108,12 @@
       "title": "AI/AIGC/元技能",
       "description": "文生图、文生视频和提示词工程相关产物",
       "package_status": "indexed"
+    },
+    {
+      "domain_id": "workplace-communication",
+      "title": "职场沟通与组织协作",
+      "description": "职场表达、目标对齐、项目协作和组织沟通相关产物",
+      "package_status": "indexed"
     }
   ]
 }
