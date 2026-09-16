@@ -68,6 +68,32 @@ npx skills add https://github.com/konglong87/jargon \
 
 </details>
 
+## 卸载
+
+查看已安装的 Skill：
+
+```bash
+npx skills list
+```
+
+项目级卸载：
+
+```bash
+npx skills remove jargon
+```
+
+全局卸载：
+
+```bash
+npx skills remove jargon -g
+```
+
+只从指定平台卸载，例如 Cursor：
+
+```bash
+npx skills remove jargon --agent cursor
+```
+
 ## 支持平台
 
 | 平台 | 安装命令 |
