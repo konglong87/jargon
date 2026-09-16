@@ -15,7 +15,7 @@
     {
       "domain_id": "ai-aigc-meta-skills",
       "package_id": "aigc-core",
-      "title": "AIGC 影像与提示词需求澄清术语包（草案）",
+      "title": "AIGC 影像与提示词需求澄清术语包",
       "status": "published",
       "term_path": "terms/aigc.json",
       "intents": [
@@ -192,7 +192,7 @@
     {
       "domain_id": "digital-product-uiux",
       "package_id": "uiux-core",
-      "title": "网页 UI/UX 需求澄清术语包（草案）",
+      "title": "网页 UI/UX 需求澄清术语包",
       "status": "published",
       "term_path": "terms/uiux.json",
       "intents": [

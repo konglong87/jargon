@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "package_id": "aigc-core",
   "domain_id": "ai-aigc-meta-skills",
-  "title": "AIGC 影像与提示词需求澄清术语包（草案）",
+  "title": "AIGC 影像与提示词需求澄清术语包",
   "version": "0.1.0",
   "status": "published",
   "intents": [
