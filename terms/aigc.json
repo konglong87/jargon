@@ -194,5 +194,17 @@
       ],
       "reason": "需要拆解镜头、光线、构图、色调和风格。"
     }
-  ]
+  ],
+  "template_refs": {
+    "base_ip": "templates/aigc/base-ip.json",
+    "scenes": [
+      "templates/aigc/lineart-to-3d.json",
+      "templates/aigc/plush-texture.json",
+      "templates/aigc/turnaround-3view.json",
+      "templates/aigc/expression-sheet.json",
+      "templates/aigc/action-sheet.json",
+      "templates/aigc/outfit-sheet.json",
+      "templates/aigc/merchandise-set.json"
+    ]
+  }
 }
