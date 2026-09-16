@@ -6,7 +6,7 @@
 
 <p>
   <img src="https://img.shields.io/badge/18%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-6d5dfc" alt="18 个领域">
-  <img src="https://img.shields.io/badge/3%20%E4%B8%AA%E8%BF%90%E8%A1%8C%E6%97%B6%E5%8C%85-published-20a464" alt="3 个运行时包">
+  <img src="https://img.shields.io/badge/18%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-20a464" alt="18 个领域">
   <img src="https://img.shields.io/badge/npx-first-f59e0b" alt="npx first">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111827" alt="MIT License"></a>
 </p>
