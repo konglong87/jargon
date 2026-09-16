@@ -5,8 +5,8 @@
 ### Jargon，你说感觉，Jargon 帮你专业术语补全。
 
 <p>
-  <img src="https://img.shields.io/badge/18%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-6d5dfc" alt="18 个领域">
-  <img src="https://img.shields.io/badge/18%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-20a464" alt="18 个领域">
+  <img src="https://img.shields.io/badge/18%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-6d5dfc" alt="19 个领域">
+  <img src="https://img.shields.io/badge/19%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-20a464" alt="19 个领域">
   <img src="https://img.shields.io/badge/npx-first-f59e0b" alt="npx first">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111827" alt="MIT License"></a>
 </p>
