@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0.0",
   "package_id": "backend-core",
-  "domain_id": "software",
+  "domain_id": "software-engineering-architecture",
   "title": "后端与软件工程需求澄清术语包（幂等子域草案）",
   "version": "0.1.0",
   "status": "published",

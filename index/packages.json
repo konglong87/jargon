@@ -58,7 +58,7 @@
       ]
     },
     {
-      "domain_id": "software",
+      "domain_id": "software-engineering-architecture",
       "package_id": "backend-core",
       "title": "后端与软件工程需求澄清术语包（幂等子域草案）",
       "status": "published",
