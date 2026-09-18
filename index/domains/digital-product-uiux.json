@@ -6,7 +6,7 @@
       "subdomain_id": "visual-layout",
       "title": "视觉布局",
       "description": "卡片、留白、非对称和出血布局",
-      "intent_index": "index/intents/visual-layout.json",
+      "intent_index": "index/intents/digital-product-uiux/visual-layout.json",
       "leaf_count": 1,
       "status": "published"
     },
@@ -14,7 +14,7 @@
       "subdomain_id": "design-tokens",
       "title": "设计令牌",
       "description": "颜色、字体、圆角、阴影和间距",
-      "intent_index": "index/intents/design-tokens.json",
+      "intent_index": "index/intents/digital-product-uiux/design-tokens.json",
       "leaf_count": 1,
       "status": "published"
     },
@@ -22,7 +22,7 @@
       "subdomain_id": "interaction-motion",
       "title": "交互动效",
       "description": "时间、速度、连续性和反馈",
-      "intent_index": "index/intents/interaction-motion.json",
+      "intent_index": "index/intents/digital-product-uiux/interaction-motion.json",
       "leaf_count": 14,
       "status": "published"
     },
@@ -30,7 +30,7 @@
       "subdomain_id": "gesture-interaction",
       "title": "手势交互",
       "description": "跟随、阈值、吸附和手势采样",
-      "intent_index": "index/intents/gesture-interaction.json",
+      "intent_index": "index/intents/digital-product-uiux/gesture-interaction.json",
       "leaf_count": 6,
       "status": "published"
     },
@@ -38,7 +38,7 @@
       "subdomain_id": "information-architecture",
       "title": "信息架构",
       "description": "导航、层级、密度和内容组织",
-      "intent_index": "index/intents/information-architecture.json",
+      "intent_index": "index/intents/digital-product-uiux/information-architecture.json",
       "leaf_count": 1,
       "status": "published"
     },
@@ -46,7 +46,7 @@
       "subdomain_id": "accessibility",
       "title": "可访问性",
       "description": "键盘、读屏、减少动态和状态表达",
-      "intent_index": "index/intents/accessibility.json",
+      "intent_index": "index/intents/digital-product-uiux/accessibility.json",
       "leaf_count": 1,
       "status": "published"
     },
@@ -54,7 +54,7 @@
       "subdomain_id": "dashboard-design",
       "title": "Dashboard 设计",
       "description": "数据后台的视觉方向和布局",
-      "intent_index": "index/intents/dashboard-design.json",
+      "intent_index": "index/intents/digital-product-uiux/dashboard-design.json",
       "leaf_count": 6,
       "status": "published"
     },
@@ -62,7 +62,7 @@
       "subdomain_id": "component-design",
       "title": "组件设计",
       "description": "可复用组件和 AI 组件描述",
-      "intent_index": "index/intents/component-design.json",
+      "intent_index": "index/intents/digital-product-uiux/component-design.json",
       "leaf_count": 8,
       "status": "published"
     },
@@ -70,7 +70,7 @@
       "subdomain_id": "3d-web-interface",
       "title": "3D Web 界面",
       "description": "实时 3D 和 GPU 视觉界面",
-      "intent_index": "index/intents/3d-web-interface.json",
+      "intent_index": "index/intents/digital-product-uiux/3d-web-interface.json",
       "leaf_count": 3,
       "status": "published"
     }

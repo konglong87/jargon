@@ -2,14 +2,63 @@
 """Create Jargon progressive indexes and granular knowledge packages."""
 from __future__ import annotations
 import json
+import argparse
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+PARSER = argparse.ArgumentParser(description="Bootstrap or refresh Jargon progressive indexes")
+PARSER.add_argument(
+    "--force",
+    action="store_true",
+    help="regenerate existing leaf JSON from the embedded bootstrap catalog",
+)
+ARGS = PARSER.parse_args()
 
 def dump(path: str, data: dict) -> None:
     target = ROOT / path
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+def read_json(path: Path) -> dict:
+    with path.open(encoding="utf-8") as handle:
+        return json.load(handle)
+
+def adopt_existing_leaf(spec: dict) -> None:
+    """Treat an existing leaf JSON as authored content unless --force is used."""
+    target = ROOT / spec["path"]
+    if not target.is_file() or ARGS.force is True:
+        dump(spec["path"], {
+            "schema_version": "1.0.0",
+            **{key: value for key, value in spec.items() if key not in {"path", "entries"}},
+            "entries": spec["entries"],
+        })
+        return
+    existing = read_json(target)
+    required = ("leaf_id", "domain_id", "subdomain_id", "title", "knowledge_type", "status", "intent_ids", "entries")
+    missing = [key for key in required if key not in existing]
+    if missing:
+        raise ValueError(f"leaf {spec['path']} is missing required fields: {', '.join(missing)}")
+    existing["path"] = spec["path"]
+    existing.setdefault("scope", "general")
+    existing.setdefault("do_not_generalize", False)
+    spec.clear()
+    spec.update(existing)
+
+def discover_authored_leaves() -> None:
+    """Include manually added granular leaves in the next generated index."""
+    for path in sorted((ROOT / "terms").rglob("*.json")):
+        relative = path.relative_to(ROOT).as_posix()
+        if len(path.relative_to(ROOT / "terms").parts) == 1:
+            continue
+        data = read_json(path)
+        leaf_id = data.get("leaf_id")
+        if not leaf_id or leaf_id in leaf_defs:
+            continue
+        required = ("domain_id", "subdomain_id", "title", "knowledge_type", "status", "intent_ids", "entries")
+        if all(key in data for key in required):
+            data.setdefault("scope", "general")
+            data.setdefault("do_not_generalize", False)
+            leaf_defs[leaf_id] = {"path": relative, **data}
 
 # Keep root/package indexes backward compatible while publishing the progressive loader policy.
 root = json.loads((ROOT / "index/root.json").read_text(encoding="utf-8"))
@@ -318,14 +367,25 @@ add_leaf("terms/character-ip/character-ip.json", "character-ip", "ai-aigc-meta-s
 ], ["generate-character", "extend-character"])
 
 # Index all target leaves.
+discover_authored_leaves()
+for spec in leaf_defs.values():
+    domain_id = spec["domain_id"]
+    subdomain_id = spec["subdomain_id"]
+    if domain_id not in domain_specs:
+        continue
+    known_subdomains = {item[0] for item in domain_specs[domain_id]}
+    if subdomain_id not in known_subdomains:
+        domain_specs[domain_id].append(
+            (subdomain_id, spec["title"], f"手工新增的 {subdomain_id} 叶子入口")
+        )
 leaf_refs = []
 for leaf_id, spec in sorted(leaf_defs.items()):
+    adopt_existing_leaf(spec)
     leaf_refs.append({
         "leaf_id": leaf_id, "title": spec["title"], "path": spec["path"], "domain_id": spec["domain_id"], "subdomain_id": spec["subdomain_id"],
         "knowledge_type": spec["knowledge_type"], "status": spec["status"], "intent_ids": spec["intent_ids"], "scope": spec["scope"],
         "entry_count": len(spec["entries"]), "do_not_generalize": spec.get("do_not_generalize", False)
     })
-    dump(spec["path"], {"schema_version": "1.0.0", **{k: v for k, v in spec.items() if k not in {"path", "entries"}}, "entries": spec["entries"]})
 
 dump("index/leaves.json", {"schema_version": "1.0.0", "knowledge_types": ["term", "pattern", "technique", "guideline", "parameter", "template", "platform-research"], "leaves": leaf_refs})
 
@@ -333,8 +393,16 @@ for domain_id, subdomains in domain_specs.items():
     subdomain_items = []
     for subdomain_id, title, description in subdomains:
         leaves = [x for x in leaf_refs if x["domain_id"] == domain_id and x["subdomain_id"] == subdomain_id]
-        intents = intent_defaults.get(subdomain_id, [("explore", "探索", title)])
-        intent_index_path = f"index/intents/{domain_id}-core.json" if subdomain_id == "core" else f"index/intents/{subdomain_id}.json"
+        if subdomain_id in intent_defaults:
+            intents = intent_defaults[subdomain_id]
+        else:
+            derived_intents = sorted({
+                intent_id
+                for leaf in leaves
+                for intent_id in leaf.get("intent_ids", [])
+            })
+            intents = [(intent_id, "匹配", title) for intent_id in derived_intents] or [("explore", "探索", title)]
+        intent_index_path = f"index/intents/{domain_id}/{subdomain_id}.json"
         subdomain_items.append({
             "subdomain_id": subdomain_id, "title": title, "description": description,
             "intent_index": intent_index_path, "leaf_count": len(leaves),

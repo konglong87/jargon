@@ -191,6 +191,14 @@ python3 scripts/query-index.py "一个真实用户请求"
 
 7. 只提交公开、可复用、无密钥、无本机路径和无用户隐私的内容。
 
+叶子 JSON 是可编辑的事实来源。运行 `scripts/bootstrap-progressive-content.py` 时，已有叶子会被读取并保留；只有缺失叶子会从内置骨架生成。确实需要用脚本内置内容覆盖已有叶子时，才显式使用：
+
+```bash
+python3 scripts/bootstrap-progressive-content.py --force
+```
+
+意图索引按 `index/intents/<domain_id>/<subdomain_id>.json` 命名，避免不同领域出现同名子域时互相覆盖。
+
 ## 卸载
 
 ```bash

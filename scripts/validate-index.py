@@ -49,12 +49,15 @@ route_ids = {item["leaf_id"] for item in routes}
 assert route_ids == set(leaf_ids), "runtime routes and leaf manifest differ"
 leaf_by_id = {item["leaf_id"]: item for item in leaves}
 intent_ids_by_subdomain = {}
+intent_index_paths = set()
 for domain in root:
     domain_doc = assert_file(domain["subdomain_index"])
     assert domain_doc["domain_id"] == domain["domain_id"], f"domain index mismatch: {domain['domain_id']}"
     subdomain_ids = {item["subdomain_id"] for item in domain_doc["subdomains"]}
     assert subdomain_ids, f"empty subdomain index: {domain['domain_id']}"
     for subdomain in domain_doc["subdomains"]:
+        assert subdomain["intent_index"] not in intent_index_paths, f"duplicate intent index path: {subdomain['intent_index']}"
+        intent_index_paths.add(subdomain["intent_index"])
         intent_doc = assert_file(subdomain["intent_index"])
         assert intent_doc["subdomain_id"] == subdomain["subdomain_id"], f"intent index mismatch: {subdomain['subdomain_id']}"
         assert intent_doc.get("domain_id") == domain["domain_id"], f"intent domain mismatch: {subdomain['subdomain_id']}"
