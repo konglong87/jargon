@@ -5,16 +5,17 @@
 ### Jargon，你说感觉，Jargon 帮你专业术语补全。
 
 <p>
-  <img src="https://img.shields.io/badge/18%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-6d5dfc" alt="19 个领域">
-  <img src="https://img.shields.io/badge/19%20%E4%B8%AA%E9%A2%86%E5%9F%9F-indexed-20a464" alt="19 个领域">
+  <img src="https://img.shields.io/badge/19%20domains-indexed-20a464" alt="19 domains indexed">
+  <img src="https://img.shields.io/badge/63%20leaf%20packages-progressive-6d5dfc" alt="63 progressive leaf packages">
   <img src="https://img.shields.io/badge/npx-first-f59e0b" alt="npx first">
+  <img src="https://img.shields.io/badge/LLM-on--demand-111827" alt="LLM on demand">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111827" alt="MIT License"></a>
 </p>
 
 <p>
   <a href="#快速开始">快速开始</a> ·
-  <a href="#工作原理">工作原理</a> ·
-  <a href="#支持平台">支持平台</a> ·
+  <a href="#渐进式索引">渐进式索引</a> ·
+  <a href="#按需查询">按需查询</a> ·
   <a href="#添加新领域">添加新领域</a>
 </p>
 
@@ -28,166 +29,177 @@ Jargon 不替你决定方向。它把专业选项翻译成容易理解的语言�
 
 | 你说 | Jargon 帮你补全 |
 |---|---|
-| 做一个有质感的网站 | 信息密度、字体层级、高对比度、留白节奏、组件一致性 |
-| 做一个稳定的大型后端 | 高可用、高并发、流量模型、水平扩展、幂等、熔断、可观测性 |
+| 做一个有质感的网站 | 信息密度、字体层级、对比度、留白节奏、组件一致性 |
+| 做一个稳定的大型后端 | 高可用、流量模型、水平扩展、幂等、熔断、可观测性 |
 | 做一个电影感的视频 | 景别、光线、构图、色调、运动、画幅比例、声音 |
+| 做一个高级感 Dashboard | 底色、强调色、布局层级、材质、内容主角 |
 
-## 🚀 快速开始
+## 快速开始
 
-推荐使用 `npx`。它适用于 Claude Code、Cursor、Codex、OpenCode 等多种 Agent 工具，不需要手动复制文件。
+推荐使用 `npx`，它适用于 Claude Code、Cursor、Codex、OpenCode 等 Agent 工具：
 
 ```bash
 npx skills add https://github.com/konglong87/jargon
 ```
 
-安装后，直接对 Agent 说：
+指定平台或只安装本 Skill：
+
+```bash
+npx skills add https://github.com/konglong87/jargon --skill jargon --agent claude-code
+npx skills add https://github.com/konglong87/jargon --skill jargon --agent cursor
+npx skills add https://github.com/konglong87/jargon --skill jargon --agent codex
+npx skills add https://github.com/konglong87/jargon --skill jargon --agent opencode
+```
+
+查看可用 Skill、全局安装：
+
+```bash
+npx skills add https://github.com/konglong87/jargon --list
+npx skills add https://github.com/konglong87/jargon -g
+```
+
+安装后可以直接说：
 
 ```text
-做一个有质感的中文电商首页
+删除列表项，5 秒内撤销并支持键盘；撤销时要沿原路径回来。
 ```
 
-Jargon 会识别模糊词、加载相关术语、给出可选方向，并在你确认后生成增强提示词。
+## 渐进式索引
 
-<details>
-<summary>更多 npx 安装选项</summary>
+> **索引越来越细，加载越来越少，术语越来越专，LLM 才能真正做到按需增强，而不是把整个知识库塞进上下文。**
 
-```bash
-# 查看可用技能
-npx skills add https://github.com/konglong87/jargon --list
+Jargon 的运行路径固定为：
 
-# 全局安装
-npx skills add https://github.com/konglong87/jargon -g
-
-# 指定平台安装
-npx skills add https://github.com/konglong87/jargon \
-  --skill jargon \
-  --agent claude-code cursor codex
+```text
+根领域 → 专业子域 → 用户意图 → 叶子包 → 单条术语/技巧/模板
 ```
-
-需要 Node.js 和 npm。若安装器参数发生变化，请以 `npx skills add --help` 的当前提示为准。
-
-</details>
-
-## 卸载
-
-查看已安装的 Skill：
-
-```bash
-npx skills list
-```
-
-项目级卸载：
-
-```bash
-npx skills remove jargon
-```
-
-全局卸载：
-
-```bash
-npx skills remove jargon -g
-```
-
-只从指定平台卸载，例如 Cursor：
-
-```bash
-npx skills remove jargon --agent cursor
-```
-
-## 支持平台
-
-| 平台 | 安装命令 |
-|---|---|
-| Claude Code | `npx skills add https://github.com/konglong87/jargon --skill jargon --agent claude-code` |
-| Cursor | `npx skills add https://github.com/konglong87/jargon --skill jargon --agent cursor` |
-| Codex | `npx skills add https://github.com/konglong87/jargon --skill jargon --agent codex` |
-| OpenCode | `npx skills add https://github.com/konglong87/jargon --skill jargon --agent opencode` |
-
-如果目标工具没有自动识别 Skill，也可以手动加载 [`skills/jargon/SKILL.md`](skills/jargon/SKILL.md)。
-
-## 工作原理
 
 ```mermaid
 flowchart LR
-    A[用户模糊需求] --> B[根领域索引]
-    B --> C[意图索引]
-    C --> D[按需加载术语包]
-    D --> E[LLM 语义匹配]
-    E --> F[专业候选与取舍]
-    F --> G[增强提示词]
+    A[用户模糊需求] --> B[index/root.json]
+    B --> C[index/domains/domain.json]
+    C --> D[index/intents/subdomain.json]
+    D --> E[index/runtime.json]
+    E --> F[最小叶子包]
+    F --> G[匹配的单条术语/模板]
+    G --> H[增强提示词]
 ```
 
-每次只加载当前请求相关的领域和意图，不会把全部术语一次性塞进上下文。
+根索引会声明加载上限：
 
-1. 识别用户所属领域。
-2. 匹配用户要做的事情，也就是意图。
-3. 加载对应术语列表。
-4. 识别模糊词、同义表达和相关维度。
-5. 输出 3～6 个专业方向，并说明收益和代价。
-6. 只询问会改变方案的问题。
-7. 用户确认后生成最终增强提示词。
+```json
+{
+  "max_subdomains": 3,
+  "max_intents": 3,
+  "max_leaf_packages": 8,
+  "max_entries_per_leaf": 30
+}
+```
 
-没有匹配到术语包时，只有在用户允许后才进行网络搜索。搜索结果只作为本次临时参考，不自动写回术语库。
+因此，一个“撤销条 + 键盘可用”的请求只会加载交互动效和可访问性相关叶子包，不会加载所有 UI、AIGC 或后端知识。
 
-## 当前覆盖范围
+当前已建立：
 
-| 内容 | 状态 |
-|---|---|
-| 多级根领域索引 | ✅ |
-| 按需加载术语包 | ✅ |
-| UI/UX 术语包 | ✅ |
-| 后端术语包 | ✅ |
-| AIGC 术语包 | ✅ |
-| 其他领域术语入口 | ✅ |
-| npx CLI | 🚧 规划中 |
+- 19 个根领域入口
+- 63 个可独立加载的叶子包
+- 5 级加载协议
+- 7 种知识类型：术语、模式、技巧、规范、参数、模板、平台研究
+- 非空运行时索引和本地查询器
 
-当前索引包含 19 个领域。UI/UX、后端和 AIGC 术语包内容更完整；其他领域持续扩充中。
+## 按需查询
+
+在仓库根目录运行：
+
+```bash
+python3 scripts/query-index.py "删除列表项，5 秒内撤销并支持键盘"
+python3 scripts/query-index.py "设计一个不模板化的 AI 数据后台"
+python3 scripts/query-index.py "把这个角色做成毛绒玩偶和周边"
+python3 scripts/query-index.py "GPUIX 能不能跑移动端？"
+```
+
+查询结果会输出：
+
+- 命中的子域和叶子包
+- 实际加载的文件路径
+- 匹配的术语/技巧/模板条目
+- `provider-specific` 和 `do_not_generalize` 等边界标记
+- 本次是否触发网络搜索（默认不搜索）
+
+## 内容分层
+
+### UI/UX
+
+覆盖撤销条、FLIP 反向归位、跟随/阈值/吸附、速度继承、可中断动画、12 种高级交互、Dashboard 五种视觉方向、六种布局模式、8 个可投喂给 AI 的组件描述，以及键盘、读屏和 `prefers-reduced-motion` 约束。
+
+### AIGC
+
+保留基础 IP 和七个场景模板，并将角色一致性、图像提示词、视频镜头、材质、构图、运动、负面约束和工具适配拆成独立子域。一次请求只读取需要的模块。
+
+### 后端与软件工程
+
+将后端架构、高可用、高并发、扩展策略、可观测性、幂等、前端平台和跨平台渲染分开索引，避免把“稳定”“高并发”“高扩展”当成没有边界的口号。
+
+### 平台研究
+
+GPUIX 和 ThreeUI 内容被标记为 `platform-research`、`provider-specific`。未填写 `verified_at` 前只能当作待核验研究线索，不能泛化成所有 GPU UI 框架的事实。
 
 ## 项目结构
 
 ```text
 index/
-├── root.json       # 19 个根领域索引
-└── packages.json   # 领域、意图和术语包索引
+├── root.json                 # 根领域与加载上限
+├── packages.json             # 兼容旧版领域术语包入口
+├── domains/                  # 第二级：专业子域
+├── intents/                  # 第三级：用户意图
+├── leaves.json               # 第四级：叶子包清单
+└── runtime.json              # 热路径运行时路由索引
 
-terms/              # 按领域拆分的术语列表
-skills/jargon/
-└── SKILL.md        # Agent 使用规则
+terms/
+├── interaction/              # 动效、撤销、跟手、阈值、吸附
+├── dashboard/                # Dashboard 视觉方向
+├── component-design/         # AI 可生成组件描述
+├── character-ip/             # AIGC 角色一致性
+├── platform-research/        # 平台专属研究
+├── software-engineering/     # 软件架构叶子包
+└── workplace/                # 职场表达与协作
+
+templates/
+├── aigc/                     # 基础 IP 与七个场景模板
+├── dashboard/                # Dashboard 审美 Skill 模板
+
+skills/jargon/SKILL.md        # Agent 加载规则
+scripts/query-index.py        # 渐进式查询器
+scripts/validate-index.py     # 索引一致性校验
+scripts/bootstrap-progressive-content.py # 可重复生成内容与索引
 ```
 
-术语包状态：
+## 添加新领域骨架 SOP
 
-- `published`：可以被运行时直接加载。
-- `draft`：维护中的草案，不应作为确定专业事实注入提示词。
-
-## 添加新领域
-
-新增领域只需要三步：
-
-1. 在 `index/root.json` 增加领域入口。
-2. 在 `index/packages.json` 增加领域和术语包映射。
-3. 在 `terms/` 增加术语列表。
-
-每个术语建议包含：
-
-```json
-{
-  "term": "高可用",
-  "plain_language": "部分机器出故障时，服务仍能继续提供",
-  "benefit": "降低单点故障影响",
-  "cost": "增加部署和运维复杂度"
-}
-```
-
-不要提交密钥、令牌、个人路径或真实用户隐私。法律、医学、金融等高风险领域需要明确适用范围，不能替代专业意见。
-
-## 手动安装
+1. 在 `index/root.json` 增加根领域和 `subdomain_index`。
+2. 新建 `index/domains/<domain_id>.json`，只放子域摘要和加载入口。
+3. 为每个子域新建 `index/intents/<subdomain_id>.json`，只放意图和叶子引用。
+4. 在 `terms/<area>/` 增加独立叶子包；每个叶子只描述一个术语、模式、技巧或模板集合。
+5. 在 `index/leaves.json` 登记叶子元数据，在 `index/runtime.json` 增加关键词路由。
+6. 跑校验和端到端查询：
 
 ```bash
-git clone https://github.com/konglong87/jargon.git
+python3 scripts/validate-index.py
+python3 scripts/test-progressive-index.py
+python3 scripts/query-index.py "一个真实用户请求"
 ```
 
-然后将 [`skills/jargon/SKILL.md`](skills/jargon/SKILL.md) 加载到你的 Agent 配置中，并让它读取 `index/root.json`、`index/packages.json` 和对应的 `terms/*.json`。
+7. 只提交公开、可复用、无密钥、无本机路径和无用户隐私的内容。
+
+## 卸载
+
+```bash
+npx skills list
+npx skills remove jargon
+npx skills remove jargon -g
+npx skills remove jargon --agent cursor
+```
+
+若安装器参数发生变化，请以 `npx skills --help` 的当前提示为准。
 
 ## License
 

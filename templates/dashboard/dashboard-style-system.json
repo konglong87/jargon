@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "template_id": "dashboard-style-system",
+  "name": "Dashboard 审美 Skill",
+  "type": "template",
+  "inputs": [
+    "product_or_scene",
+    "style_direction",
+    "content_priority"
+  ],
+  "style_directions": [
+    {
+      "id": "warm-minimal",
+      "name": "暖调留白型",
+      "rule": "奶油底色、单一黄色强调、细边框和弱阴影，保留呼吸感。",
+      "tokens": [
+        "#F7F3EA",
+        "一个主强调色",
+        "圆角克制",
+        "弱阴影"
+      ]
+    },
+    {
+      "id": "high-contrast",
+      "name": "强对比视觉型",
+      "rule": "一张主卡占据视觉中心，用高饱和对比和大数字建立层级。",
+      "tokens": [
+        "主卡占视觉中心",
+        "硬阴影",
+        "大数字",
+        "非对称"
+      ]
+    },
+    {
+      "id": "minimal-data",
+      "name": "极简数据型",
+      "rule": "以灰阶和一个强调色组织数据，去网格线和多余标签。",
+      "tokens": [
+        "灰阶为主",
+        "胶囊柱状图",
+        "标签精简"
+      ]
+    },
+    {
+      "id": "immersive-atmosphere",
+      "name": "氛围沉浸型",
+      "rule": "深色底、雾面渐变、玻璃卡片和轻微动态光斑。",
+      "tokens": [
+        "GPU 负载预算",
+        "移动端降级",
+        "模糊光斑"
+      ]
+    },
+    {
+      "id": "image-led-content",
+      "name": "图卡内容型",
+      "rule": "让真实图片成为主角，文字叠加且只保留一个强调色。",
+      "tokens": [
+        "大图卡片",
+        "文字叠加",
+        "单一 CTA 色"
+      ]
+    },
+    {
+      "id": "layout-patterns",
+      "name": "高级布局模式",
+      "rule": "用错位、大图、非对称、层叠、留白和破格出血建立布局性格。",
+      "tokens": [
+        "错位按 8/12/16px 节奏",
+        "7:3 或 8:2 比例",
+        "只破一处网格",
+        "安全区内留信息"
+      ]
+    }
+  ],
+  "output_contract": [
+    "页面结构",
+    "色彩规范",
+    "组件规范",
+    "可直接给 AI 的提示词"
+  ],
+  "forbidden_defaults": [
+    "默认蓝紫渐变",
+    "所有卡片一样大",
+    "满屏圆角矩形",
+    "过多颜色和图标",
+    "模板化侧边栏+顶栏+四张 KPI 卡"
+  ]
+}

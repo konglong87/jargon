@@ -1,28 +1,82 @@
 #!/usr/bin/env python3
-"""Validate Jargon root/package/term index consistency."""
+"""Validate legacy and progressive Jargon indexes without loading the whole knowledge corpus."""
+from __future__ import annotations
 import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
-def load(path):
+def load(path: Path):
     with path.open(encoding="utf-8") as f:
         return json.load(f)
 
-root = load(ROOT / "index/root.json")["domains"]
-packages = load(ROOT / "index/packages.json")["packages"]
+def assert_file(rel: str) -> dict:
+    path = ROOT / rel
+    assert path.is_file(), f"missing file: {rel}"
+    return load(path)
+
+root_doc = assert_file("index/root.json")
+package_doc = assert_file("index/packages.json")
+root = root_doc["domains"]
+packages = package_doc["packages"]
 root_ids = [item["domain_id"] for item in root]
 package_ids = [item["domain_id"] for item in packages]
 assert len(root_ids) == len(set(root_ids)), "duplicate root domain_id"
 assert len([item["package_id"] for item in packages]) == len(set(item["package_id"] for item in packages)), "duplicate package_id"
 assert set(root_ids) == set(package_ids), f"domain mismatch: roots={set(root_ids)-set(package_ids)}, packages={set(package_ids)-set(root_ids)}"
+policy = root_doc["loading_policy"]
+for key in ("max_subdomains", "max_intents", "max_leaf_packages", "max_entries_per_leaf"):
+    assert isinstance(policy[key], int) and policy[key] > 0, f"invalid loading limit: {key}"
 for item in packages:
     term_path = ROOT / item["term_path"]
-    assert term_path.is_file(), f"missing term package: {item['term_path']}"
+    assert term_path.is_file(), f"missing legacy term package: {item['term_path']}"
     term = load(term_path)
     assert term["package_id"] == item["package_id"], f"package id mismatch: {item['package_id']}"
     assert term["domain_id"] == item["domain_id"], f"domain id mismatch: {item['package_id']}"
     assert term["status"] == item["status"], f"status mismatch: {item['package_id']}"
     intent_ids = {intent["id"] for intent in term.get("intents", [])}
     assert set(item["intents"]) == intent_ids, f"intent mismatch: {item['package_id']}"
-print(f"index ok: {len(root)} domains, {len(packages)} packages")
+
+leaves_doc = assert_file("index/leaves.json")
+runtime_doc = assert_file("index/runtime.json")
+leaves = leaves_doc["leaves"]
+routes = runtime_doc["routes"]
+leaf_ids = [item["leaf_id"] for item in leaves]
+assert leaf_ids and len(leaf_ids) == len(set(leaf_ids)), "duplicate or empty leaf_id"
+assert len(routes) == len(leaf_ids), "runtime route count mismatch"
+route_ids = {item["leaf_id"] for item in routes}
+assert route_ids == set(leaf_ids), "runtime routes and leaf manifest differ"
+for domain in root:
+    domain_doc = assert_file(domain["subdomain_index"])
+    assert domain_doc["domain_id"] == domain["domain_id"], f"domain index mismatch: {domain['domain_id']}"
+    subdomain_ids = {item["subdomain_id"] for item in domain_doc["subdomains"]}
+    assert subdomain_ids, f"empty subdomain index: {domain['domain_id']}"
+    for subdomain in domain_doc["subdomains"]:
+        intent_doc = assert_file(subdomain["intent_index"])
+        assert intent_doc["subdomain_id"] == subdomain["subdomain_id"], f"intent index mismatch: {subdomain['subdomain_id']}"
+        assert intent_doc.get("domain_id") == domain["domain_id"], f"intent domain mismatch: {subdomain['subdomain_id']}"
+        intent_leaf_refs = {
+            leaf_id
+            for intent in intent_doc.get("intents", [])
+            for leaf_id in intent.get("leaf_refs", [])
+        }
+        expected_leaf_refs = {
+            leaf["leaf_id"]
+            for leaf in leaves
+            if leaf["domain_id"] == domain["domain_id"] and leaf["subdomain_id"] == subdomain["subdomain_id"]
+        }
+        assert intent_leaf_refs == expected_leaf_refs, f"intent leaf mismatch: {subdomain['subdomain_id']}"
+for leaf in leaves:
+    leaf_doc = assert_file(leaf["path"])
+    assert leaf_doc["leaf_id"] == leaf["leaf_id"], f"leaf id mismatch: {leaf['leaf_id']}"
+    assert leaf_doc["domain_id"] == leaf["domain_id"], f"leaf domain mismatch: {leaf['leaf_id']}"
+    assert leaf_doc["subdomain_id"] == leaf["subdomain_id"], f"leaf subdomain mismatch: {leaf['leaf_id']}"
+    assert leaf_doc["status"] == leaf["status"], f"leaf status mismatch: {leaf['leaf_id']}"
+    assert leaf_doc["knowledge_type"] == leaf["knowledge_type"], f"knowledge type mismatch: {leaf['leaf_id']}"
+    assert len(leaf_doc.get("entries", [])) == leaf["entry_count"], f"entry count mismatch: {leaf['leaf_id']}"
+    if leaf["scope"] == "provider-specific":
+        assert leaf_doc.get("do_not_generalize") is True, f"provider leaf must be scoped: {leaf['leaf_id']}"
+for route in routes:
+    assert route["path"] in {item["path"] for item in leaves}, f"runtime path not in manifest: {route['leaf_id']}"
+    assert route["keywords"], f"empty runtime keywords: {route['leaf_id']}"
+print(f"index ok: {len(root)} domains, {len(packages)} legacy packages, {len(leaves)} progressive leaves, {len(routes)} runtime routes")

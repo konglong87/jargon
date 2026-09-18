@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "leaf_id": "damped-bottom-sheet",
+  "domain_id": "digital-product-uiux",
+  "subdomain_id": "component-design",
+  "title": "阻尼弹性抽屉",
+  "knowledge_type": "template",
+  "scope": "general",
+  "status": "published",
+  "intent_ids": [
+    "generate-component",
+    "spec-component"
+  ],
+  "entries": [
+    {
+      "id": "damped-bottom-sheet",
+      "name": "阻尼弹性抽屉",
+      "plain_language": "Bottom Sheet 根据位移和速度在 closed/peek/half/full 锚点间吸附，越界呈 rubber band 回弹。",
+      "when_to_use": "需要给 AI 编程或设计工具描述可复用组件",
+      "parameters": [
+        "rubber band",
+        "velocity projection",
+        "snap points",
+        "spring snap"
+      ],
+      "related": [
+        "follow",
+        "interruption"
+      ],
+      "constraints": [],
+      "aliases": []
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "2.0.0",
   "packages": [
     {
       "domain_id": "agri-food-cooking",
@@ -10,7 +10,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/agri-food-cooking.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "ai-aigc-meta-skills",
@@ -22,7 +25,10 @@
         "generate-image",
         "generate-video",
         "write-prompt"
-      ]
+      ],
+      "subdomain_index": "index/domains/ai-aigc-meta-skills.json",
+      "leaf_count": 9,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "architecture-civil-space",
@@ -33,7 +39,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/architecture-civil-space.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "arts-aesthetics-design",
@@ -44,7 +53,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/arts-aesthetics-design.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "astronomy-earth-environment",
@@ -55,7 +67,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/astronomy-earth-environment.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "software-engineering-architecture",
@@ -66,7 +81,10 @@
       "intents": [
         "design-write",
         "diagnose-write"
-      ]
+      ],
+      "subdomain_index": "index/domains/software-engineering-architecture.json",
+      "leaf_count": 8,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "biology-medicine-health",
@@ -77,7 +95,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/biology-medicine-health.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "communications-electronics-hardware",
@@ -88,7 +109,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/communications-electronics-hardware.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "economics-management-finance",
@@ -99,7 +123,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/economics-management-finance.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "education-sports",
@@ -110,7 +137,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/education-sports.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "history-geography-travel",
@@ -121,7 +151,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/history-geography-travel.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "industrial-mechanical-manufacturing",
@@ -132,7 +165,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/industrial-mechanical-manufacturing.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "language-literature-writing",
@@ -143,7 +179,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/language-literature-writing.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "law-politics-military",
@@ -154,7 +193,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/law-politics-military.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "math-chemistry-statistics",
@@ -165,7 +207,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/math-chemistry-statistics.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "news-media-advertising",
@@ -176,7 +221,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/news-media-advertising.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "philosophy-psychology-religion",
@@ -187,7 +235,10 @@
       "intents": [
         "design",
         "diagnose"
-      ]
+      ],
+      "subdomain_index": "index/domains/philosophy-psychology-religion.json",
+      "leaf_count": 0,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "digital-product-uiux",
@@ -198,7 +249,10 @@
       "intents": [
         "design-page",
         "diagnose-usability"
-      ]
+      ],
+      "subdomain_index": "index/domains/digital-product-uiux.json",
+      "leaf_count": 41,
+      "loading_policy": "progressive"
     },
     {
       "domain_id": "workplace-communication",
@@ -209,7 +263,10 @@
       "intents": [
         "clarify-workplace-language",
         "rewrite-workplace-request"
-      ]
+      ],
+      "subdomain_index": "index/domains/workplace-communication.json",
+      "leaf_count": 5,
+      "loading_policy": "progressive"
     }
   ]
 }
