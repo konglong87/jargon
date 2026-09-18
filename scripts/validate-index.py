@@ -27,6 +27,7 @@ assert set(root_ids) == set(package_ids), f"domain mismatch: roots={set(root_ids
 policy = root_doc["loading_policy"]
 for key in ("max_subdomains", "max_intents", "max_leaf_packages", "max_entries_per_leaf"):
     assert isinstance(policy[key], int) and policy[key] > 0, f"invalid loading limit: {key}"
+assert policy.get("max_intents_scope") == "per_subdomain", "intent limit scope must be per_subdomain"
 for item in packages:
     term_path = ROOT / item["term_path"]
     assert term_path.is_file(), f"missing legacy term package: {item['term_path']}"
@@ -46,6 +47,8 @@ assert leaf_ids and len(leaf_ids) == len(set(leaf_ids)), "duplicate or empty lea
 assert len(routes) == len(leaf_ids), "runtime route count mismatch"
 route_ids = {item["leaf_id"] for item in routes}
 assert route_ids == set(leaf_ids), "runtime routes and leaf manifest differ"
+leaf_by_id = {item["leaf_id"]: item for item in leaves}
+intent_ids_by_subdomain = {}
 for domain in root:
     domain_doc = assert_file(domain["subdomain_index"])
     assert domain_doc["domain_id"] == domain["domain_id"], f"domain index mismatch: {domain['domain_id']}"
@@ -55,6 +58,9 @@ for domain in root:
         intent_doc = assert_file(subdomain["intent_index"])
         assert intent_doc["subdomain_id"] == subdomain["subdomain_id"], f"intent index mismatch: {subdomain['subdomain_id']}"
         assert intent_doc.get("domain_id") == domain["domain_id"], f"intent domain mismatch: {subdomain['subdomain_id']}"
+        intent_ids_by_subdomain[(domain["domain_id"], subdomain["subdomain_id"])] = {
+            intent["id"] for intent in intent_doc.get("intents", [])
+        }
         intent_leaf_refs = {
             leaf_id
             for intent in intent_doc.get("intents", [])
@@ -77,6 +83,11 @@ for leaf in leaves:
     if leaf["scope"] == "provider-specific":
         assert leaf_doc.get("do_not_generalize") is True, f"provider leaf must be scoped: {leaf['leaf_id']}"
 for route in routes:
-    assert route["path"] in {item["path"] for item in leaves}, f"runtime path not in manifest: {route['leaf_id']}"
+    manifest = leaf_by_id[route["leaf_id"]]
+    for field in ("path", "domain_id", "subdomain_id", "knowledge_type", "entry_count", "scope", "intent_ids", "do_not_generalize"):
+        assert route.get(field) == manifest.get(field), f"runtime metadata mismatch: {route['leaf_id']} field={field}"
+    route_intents = set(route.get("intent_ids", []))
+    known_intents = intent_ids_by_subdomain[(route["domain_id"], route["subdomain_id"])]
+    assert route_intents <= known_intents, f"runtime intent mismatch: {route['leaf_id']}"
     assert route["keywords"], f"empty runtime keywords: {route['leaf_id']}"
 print(f"index ok: {len(root)} domains, {len(packages)} legacy packages, {len(leaves)} progressive leaves, {len(routes)} runtime routes")

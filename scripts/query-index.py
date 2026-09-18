@@ -21,6 +21,15 @@ def chunks(value: str) -> list[str]:
     # Keep Chinese runs and latin/digit words; substring matching handles short Chinese phrases.
     return re.findall(r"[\u4e00-\u9fff]{2,}|[a-z0-9][a-z0-9+.#:/-]*", text)
 
+def chinese_runs(value: str) -> list[str]:
+    return re.findall(r"[\u4e00-\u9fff]{2,}", normalize(value))
+
+def positive_int(value: str) -> int:
+    parsed = int(value)
+    if parsed <= 0:
+        raise ValueError("must be a positive integer")
+    return parsed
+
 def score(query: str, keywords: list[str]) -> int:
     q = normalize(query)
     q_tokens = [token for token in chunks(q) if len(token) >= 3 or any("\u4e00" <= char <= "\u9fff" for char in token)]
@@ -33,10 +42,10 @@ def score(query: str, keywords: list[str]) -> int:
         # Chinese requests often contain a shorter phrase inside a descriptive
         # keyword (e.g. “高可用” inside “高可用模式”). Use overlapping bigrams
         # instead of a heavyweight tokenizer.
-        if (
-            any("\u4e00" <= char <= "\u9fff" for char in candidate)
-            and any(candidate[i : i + 2] in q for i in range(0, max(0, len(candidate) - 1), 1))
-            and len(candidate) >= 2
+        if any(
+            phrase[i : i + 2] in q
+            for phrase in chinese_runs(candidate)
+            for i in range(0, len(phrase) - 1)
         ):
             points += 2
             continue
@@ -46,15 +55,15 @@ def score(query: str, keywords: list[str]) -> int:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Progressive Jargon runtime query")
     parser.add_argument("query", nargs="+", help="user request")
-    parser.add_argument("--max-leaves", type=int, default=None)
-    parser.add_argument("--max-entries", type=int, default=None)
+    parser.add_argument("--max-leaves", type=positive_int, default=None)
+    parser.add_argument("--max-entries", type=positive_int, default=None)
     args = parser.parse_args()
     query = " ".join(args.query)
     root = load("index/root.json")
     runtime = load("index/runtime.json")
     limits = root["loading_policy"]
-    max_leaves = args.max_leaves or limits["max_leaf_packages"]
-    max_entries = args.max_entries or limits["max_entries_per_leaf"]
+    max_leaves = args.max_leaves if args.max_leaves is not None else limits["max_leaf_packages"]
+    max_entries = args.max_entries if args.max_entries is not None else limits["max_entries_per_leaf"]
 
     ranked = []
     for route in runtime["routes"]:
@@ -72,6 +81,48 @@ def main() -> None:
             selected_subdomains.append(key)
     selected_subdomains = selected_subdomains[: limits["max_subdomains"]]
     selected = [pair for pair in selected if (pair[1]["domain_id"], pair[1]["subdomain_id"]) in selected_subdomains][:max_leaves]
+
+    # Resolve the selected hierarchy before loading leaf content. The runtime
+    # router stays small and hot, while these indexes provide the authoritative
+    # domain -> subdomain -> intent path for the selected request.
+    domain_index_paths = []
+    intent_index_paths = []
+    selected_intents = {}
+    for domain_id, subdomain_id in selected_subdomains:
+        domain_path = f"index/domains/{domain_id}.json"
+        domain_doc = load(domain_path)
+        domain_index_paths.append(domain_path)
+        subdomain = next(item for item in domain_doc["subdomains"] if item["subdomain_id"] == subdomain_id)
+        intent_doc = load(subdomain["intent_index"])
+        intent_index_paths.append(subdomain["intent_index"])
+        selected_intents[(domain_id, subdomain_id)] = {
+            intent["id"] for intent in intent_doc.get("intents", [])
+        }
+    intent_rank = {}
+    for route_score, route in selected:
+        for intent_id in route.get("intent_ids", []):
+            key = (route["domain_id"], route["subdomain_id"], intent_id)
+            intent_rank[key] = max(route_score, intent_rank.get(key, 0))
+    selected_intent_ids = set()
+    for domain_id, subdomain_id in selected_subdomains:
+        candidates = [
+            (score_value, intent_id)
+            for (candidate_domain, candidate_subdomain, intent_id), score_value in intent_rank.items()
+            if candidate_domain == domain_id and candidate_subdomain == subdomain_id
+        ]
+        candidates.sort(key=lambda item: (-item[0], item[1]))
+        selected_intent_ids.update(
+            (domain_id, subdomain_id, intent_id)
+            for _, intent_id in candidates[: limits["max_intents"]]
+        )
+    selected = [
+        pair for pair in selected
+        if any(
+            (pair[1]["domain_id"], pair[1]["subdomain_id"], intent_id) in selected_intent_ids
+            for intent_id in set(pair[1].get("intent_ids", []))
+            & selected_intents[(pair[1]["domain_id"], pair[1]["subdomain_id"])]
+        )
+    ]
 
     loaded = []
     for route_score, route in selected:
@@ -96,6 +147,12 @@ def main() -> None:
             "levels": ["root", "subdomain", "intent", "leaf", "entry"],
             "root_loaded": "index/root.json",
             "runtime_router_loaded": "index/runtime.json",
+            "domain_index_paths": domain_index_paths,
+            "intent_index_paths": intent_index_paths,
+            "selected_intents": [
+                {"domain_id": d, "subdomain_id": s, "intent_id": i}
+                for d, s, i in sorted(selected_intent_ids)
+            ],
             "selected_subdomains": [{"domain_id": d, "subdomain_id": s} for d, s in selected_subdomains],
             "loaded_leaf_paths": [item["path"] for item in loaded],
             "loaded_leaf_count": len(loaded),

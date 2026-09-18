@@ -19,6 +19,7 @@ root["loading_policy"] = {
     "levels": ["root", "subdomain", "intent", "leaf", "entry"],
     "max_subdomains": 3,
     "max_intents": 3,
+    "max_intents_scope": "per_subdomain",
     "max_leaf_packages": 8,
     "max_entries_per_leaf": 30,
     "search_fallback": "ask-before-network",
