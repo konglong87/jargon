@@ -13,6 +13,13 @@ CASES = [
     ("把这个角色做成毛绒玩偶和周边", {"character-ip"}, 2),
     ("GPUIX 能不能跑移动端？", {"gpui-mobile"}, 3),
     ("后端需要高可用、高并发、高扩展", {"availability-patterns", "capacity-model", "scaling-strategies"}, 3),
+    ("搜索框展开后自动聚焦，状态切换要连续", {"search-expand"}, 8),
+    ("按住按钮确认危险操作，未满松手要取消", {"press-and-hold-confirm"}, 8),
+    ("做一个前后对比滑块，支持键盘调整", {"before-after-slider"}, 8),
+    ("设计一个克制的暗色 Dashboard，用明度分层", {"tonal-dark-dashboard"}, 8),
+    ("实现液态玻璃导航并提供移动端降级", {"liquid-glass-bar"}, 8),
+    ("用 GSAP 做 React ScrollTrigger，并正确清理", {"gsap-scrolltrigger", "gsap-react-lifecycle"}, 8),
+    ("设计一个有 Light/Dark 预览的设计系统", {"living-style-guide-preview"}, 8),
 ]
 NEGATIVE_CASES = [
     ("hello world", {"morph-icon", "ripple-button", "liquid-slider"}),
@@ -41,6 +48,27 @@ gpui_result = json.loads(raw)
 gpui_mobile = next(item for item in gpui_result["matches"] if item["leaf_id"] == "gpui-mobile")
 assert gpui_mobile["scope"] == "provider-specific", "provider scope was lost"
 assert gpui_mobile["do_not_generalize"] is True, "provider boundary was lost"
+
+raw = subprocess.check_output(["python3", str(QUERY), "实现液态玻璃导航并提供移动端降级"], text=True)
+glass_result = json.loads(raw)
+glass = next(item for item in glass_result["matches"] if item["leaf_id"] == "liquid-glass-bar")
+glass_entry = glass["entries"][0]
+for field in ("performance_budget", "fallback", "mobile_degradation", "reduced_motion"):
+    assert field in glass_entry and glass_entry[field], f"visual effect field missing: {field}"
+
+raw = subprocess.check_output(["python3", str(QUERY), "用 GSAP 做 React ScrollTrigger，并正确清理"], text=True)
+gsap_result = json.loads(raw)
+gsap = next(item for item in gsap_result["matches"] if item["leaf_id"] == "gsap-scrolltrigger")
+assert gsap["scope"] == "provider-specific", "GSAP provider scope was lost"
+assert gsap["do_not_generalize"] is True, "GSAP generalization boundary was lost"
+assert gsap["entries"][0]["verification_required"] is True, "GSAP verification flag was lost"
+
+raw = subprocess.check_output(["python3", str(QUERY), "设计一个有 Light/Dark 预览的设计系统"], text=True)
+design_system_result = json.loads(raw)
+design_system = next(item for item in design_system_result["matches"] if item["leaf_id"] == "living-style-guide-preview")
+assert design_system["entries"][0]["verification_required"] is True, "design system verification flag was lost"
+assert design_system["entries"][0]["external_references"], "design system external reference missing"
+
 for option in ("--max-leaves", "--max-entries"):
     completed = subprocess.run(
         ["python3", str(QUERY), "撤销", option, "0"],

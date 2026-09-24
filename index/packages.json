@@ -251,7 +251,7 @@
         "diagnose-usability"
       ],
       "subdomain_index": "index/domains/digital-product-uiux.json",
-      "leaf_count": 41,
+      "leaf_count": 77,
       "loading_policy": "progressive"
     },
     {

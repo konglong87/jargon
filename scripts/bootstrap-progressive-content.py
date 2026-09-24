@@ -78,11 +78,15 @@ domain_specs = {
         ("visual-layout", "视觉布局", "卡片、留白、非对称和出血布局"),
         ("design-tokens", "设计令牌", "颜色、字体、圆角、阴影和间距"),
         ("interaction-motion", "交互动效", "时间、速度、连续性和反馈"),
+        ("continuous-interaction", "连续交互", "同一容器内的展开、形变、切换和回退"),
         ("gesture-interaction", "手势交互", "跟随、阈值、吸附和手势采样"),
         ("information-architecture", "信息架构", "导航、层级、密度和内容组织"),
         ("accessibility", "可访问性", "键盘、读屏、减少动态和状态表达"),
         ("dashboard-design", "Dashboard 设计", "数据后台的视觉方向和布局"),
         ("component-design", "组件设计", "可复用组件和 AI 组件描述"),
+        ("visual-effects", "视觉效果", "玻璃、光晕、景深、卷收和液态粘连"),
+        ("design-system", "设计系统", "设计令牌、预览和视觉验收"),
+        ("animation-tool-adapter", "动画工具适配", "GSAP 等动画工具的实现边界"),
         ("3d-web-interface", "3D Web 界面", "实时 3D 和 GPU 视觉界面"),
     ],
     "ai-aigc-meta-skills": [
@@ -130,9 +134,13 @@ intent_defaults = {
     "information-architecture": [("design-information", "设计", "信息架构"), ("audit-information", "评审", "信息层级")],
     "design-tokens": [("define-tokens", "定义", "设计令牌"), ("audit-tokens", "审计", "令牌一致性")],
     "interaction-motion": [("design-interaction", "设计", "交互动效"), ("implement-animation", "实现", "动画反馈"), ("audit-motion", "评审", "动效质量")],
+    "continuous-interaction": [("design-continuous", "设计", "连续交互"), ("implement-continuous", "实现", "连续组件"), ("audit-continuous", "评审", "连续性")],
     "gesture-interaction": [("design-gesture", "设计", "手势交互"), ("implement-gesture", "实现", "手势组件"), ("audit-gesture", "评审", "手感问题")],
     "dashboard-design": [("design-dashboard", "设计", "数据后台"), ("audit-dashboard", "评审", "后台审美")],
     "component-design": [("generate-component", "生成", "UI 组件"), ("spec-component", "规范", "组件需求")],
+    "visual-effects": [("design-visual-effect", "设计", "视觉效果"), ("implement-visual-effect", "实现", "视觉效果"), ("audit-performance", "评审", "视觉性能")],
+    "design-system": [("build-design-system", "建立", "设计系统"), ("preview-design-system", "预览", "设计系统"), ("audit-design-system", "验收", "视觉规范")],
+    "animation-tool-adapter": [("implement-gsap", "实现", "GSAP 动效"), ("audit-gsap", "评审", "GSAP 集成")],
     "3d-web-interface": [("compare-platform", "比较", "平台能力"), ("choose-renderer", "选择", "渲染后端")],
     "accessibility": [("audit-accessibility", "审计", "可访问性"), ("implement-accessibility", "实现", "无障碍能力")],
     "character-ip": [("generate-character", "生成", "角色 IP"), ("extend-character", "延展", "角色周边")],
@@ -177,11 +185,13 @@ def add_leaf(path, leaf_id, domain_id, subdomain_id, title, knowledge_type, entr
     }
 
 # Shared helpers.
-def entry(eid, name, plain, when, params=None, related=None, constraints=None, aliases=None):
-    return {
+def entry(eid, name, plain, when, params=None, related=None, constraints=None, aliases=None, **extra):
+    result = {
         "id": eid, "name": name, "plain_language": plain, "when_to_use": when,
         "parameters": params or [], "related": related or [], "constraints": constraints or [], "aliases": aliases or []
     }
+    result.update(extra)
+    return result
 
 interaction_dir = "terms/interaction"
 add_leaf(f"{interaction_dir}/undo-window.json", "undo-window", "digital-product-uiux", "interaction-motion", "撤销时间窗口", "technique", [
@@ -232,6 +242,74 @@ for leaf_id, (name, plain, params) in interaction_12.items():
     intent_ids = ["design-interaction", "implement-animation"] if subdomain_id == "interaction-motion" else ["design-gesture", "implement-gesture"]
     add_leaf(f"{interaction_dir}/{leaf_id}.json", leaf_id, "digital-product-uiux", subdomain_id, name, "pattern", [entry(leaf_id, name, plain, "需要高级反馈但仍要保持可理解的操作结果", params, ["follow", "threshold", "snap", "interruption"])], intent_ids)
 
+continuous_patterns = {
+    "search-expand": ("搜索框展开", "图标与输入框共用容器，展开后自动聚焦，关闭时沿原路径收回。", ["transform-origin: left", "focus 延迟 80–120ms", "图标淡出", "关闭后焦点返回触发器"], ["idle", "expanded", "closing"], ["focus-continuity", "same-container-transition"]),
+    "fab-panel-morph": ("加号展开面板", "FAB 原位形变为操作面板，中心点保持不变，关闭时逆向收回。", ["clip-path", "border-radius", "scale", "中心点不变"], ["closed", "opening", "open", "closing"], ["same-container-transition", "interruption"]),
+    "submit-state-machine": ("提交状态反馈", "按钮容器固定，通过状态机切换 loading、success 和 result，避免按钮位移。", ["idle → loading → success → result", "固定按钮宽度", "只替换内部内容"], ["idle", "loading", "success", "result"], ["state-machine-driven-ui", "interruption"]),
+    "icon-morph": ("图标变形", "菜单、播放等图标优先通过 SVG path 插值完成状态变化。", ["路径点数一致", "200–300ms", "交叉淡入是降级方案"], ["default", "transitioning", "alternate"], ["same-container-transition", "reduced-motion"]),
+    "tab-indicator-spring": ("标签指示条", "指示条先拉向新位置，再收缩归位，轻微超调但不影响点击判断。", ["spring 或 cubic-bezier", "超调 5%–10%", "指示条不重建"], ["idle", "moving", "settled"], ["follow", "snap"]),
+    "button-stepper-morph": ("按钮变步进器", "加号按钮原位展开为减号、数量和加号，数量归零后收回。", ["同一组件多状态布局", "数量归零自动收回", "保持触发器位置"], ["add", "expanded", "decrementing", "collapsed"], ["state-machine-driven-ui", "same-container-transition"]),
+    "inline-detail-expand": ("列表展开详情", "选中列表项就地展开，其余项顺势下移，不跳转详情页。", ["max-height 或 FLIP", "保留选中项上下文", "其他项让位"], ["collapsed", "expanding", "expanded", "collapsing"], ["flip-reentry", "interruption"]),
+    "list-grid-flip": ("列表切换网格", "记录旧布局，切换布局后反转并播放到新位置，避免重载和跳变。", ["First/Last/Invert/Play", "transform 优先", "支持快速切换"], ["list", "switching", "grid"], ["flip-reentry", "interruption"]),
+    "scroll-header-collapse": ("顶栏随滚动收起", "滚动进度驱动搜索栏和顶栏收缩，反向滚动恢复。", ["scrollY 归一化 0–1", "requestAnimationFrame", "滚动方向迟滞"], ["expanded", "collapsing", "collapsed", "expanding"], ["follow", "reduced-motion"]),
+    "fullscreen-reveal-menu": ("菜单铺满全屏", "以触发按钮为中心用圆形揭示铺满全屏，菜单项交错进入。", ["clip-path: circle()", "stagger 30–50ms", "菜单方向可中断"], ["closed", "revealing", "open", "closing"], ["same-container-transition", "interruption"]),
+}
+for leaf_id, (name, plain, params, states, related) in continuous_patterns.items():
+    add_leaf(
+        f"terms/interaction/continuous/{leaf_id}.json",
+        leaf_id,
+        "digital-product-uiux",
+        "continuous-interaction",
+        name,
+        "pattern",
+        [entry(
+            leaf_id,
+            name,
+            plain,
+            "需要状态切换连续、焦点稳定且避免跳页或突然替换容器的组件",
+            params,
+            related,
+            ["动画必须可中断", "支持 prefers-reduced-motion", "状态变化不能重复触发回调"],
+            state_machine=states,
+            acceptance=["状态切换无跳变", "快速操作不产生竞态", "键盘和触摸路径结果一致"],
+        )],
+        ["design-continuous", "implement-continuous", "audit-continuous"],
+    )
+
+advanced_interactions = {
+    "press-and-hold-confirm": ("按住蓄力确认", "按住危险操作按钮达到 800–1200ms 才确认，未满松手或移动超限则取消。", ["pressing", "charging", "confirmed", "cancel"], ["800–1200ms", "移动超过 10px 取消", "多点触控只认第一指", "进度环与按压时间一致"], ["键盘 Space/Enter", "ESC 取消", "aria-describedby", "替代二次确认"]),
+    "rotary-knob": ("旋钮转盘", "拖动或用键盘旋转旋钮，释放后吸附到最近刻度，中心数值同步变化。", ["dragging", "snapping", "idle"], ["-135° 到 +135°", "步进 1 或 5", "小于 0.35 步长磁吸", "touch-action: none"], ["role=slider", "aria-valuemin/max/now", "Home/End 到极值"]),
+    "before-after-slider": ("前后对比滑块", "拖动分割线实时裁切两张图，位置在 0%–100%，不使用惯性。", ["idle", "dragging"], ["初始 50%", "clip-path: inset()", "拖动无过渡", "容器 resize 重新计算"], ["role=slider", "左右箭头步进", "图片失败时保留可用状态"]),
+    "radial-menu": ("弧形快捷菜单", "长按悬浮按钮展开弧形子菜单，子项沿弧线交错弹出并支持边缘翻转。", ["pressing", "open", "closing"], ["长按 400–500ms", "移动超过 10px 取消", "stagger 30–50ms", "边缘翻转弧线方向"], ["aria-expanded", "role=menuitem", "ESC 焦点返回"]),
+    "slide-to-confirm": ("滑动确认组件", "滑块超过 80% 才确认，不足松手则弹回，确认只触发一次。", ["dragging", "threshold", "confirmed", "returning"], ["80% 阈值", "达到阈值加速到末端", "spring 回弹", "移动端阻止页面滚动"], ["role=slider", "Enter/Space 确认", "危险操作提供替代确认"]),
+    "long-press-preview": ("长按浮起预览", "长按列表项打开上下文预览，选中项浮起，菜单在局部空间内展开。", ["pressing", "preview", "menu", "closing"], ["450–600ms", "移动超过 10px 取消", "背景 blur 8px", "虚拟列表卸载时关闭"], ["Enter 打开", "焦点陷阱", "ESC 返回列表项"]),
+    "drag-to-absorb": ("拖到目标吸入", "拖拽元素靠近目标后目标张开，松手时元素缩小并吸入目标中心。", ["dragging", "hovering", "dropping", "absorbed", "returning"], ["目标半径 1.2 倍或外扩 48px", "目标 scale 1.15", "元素缩至 0.2", "未命中回原位"], ["键盘移动和放置", "目标重叠时按优先级", "多点触控只认第一指"]),
+    "segmented-progress": ("分段进度条", "按住暂停，点击左右区域切换上一项或下一项，进度与内容同步。", ["playing", "paused", "switching"], ["200ms 内抬起判定点击", "左右 35% 切换", "中间 30% 暂停", "最后一项循环"], ["左右箭头", "Space 暂停", "aria-live 当前项"]),
+    "perspective-carousel": ("景随图换轮播", "拖动距离或速度达到阈值后切换，中心项放大，侧边项透视缩小。", ["dragging", "snapping", "switching"], ["距离超过 20% 或速度超过 0.5px/ms", "perspective 1000px", "侧项 scale 0.85", "无限循环无跳帧"], ["aria-roledescription=carousel", "aria-current", "图片失败降级"]),
+}
+for leaf_id, (name, plain, states, params, accessibility) in advanced_interactions.items():
+    add_leaf(
+        f"terms/interaction/advanced/{leaf_id}.json",
+        leaf_id,
+        "digital-product-uiux",
+        "gesture-interaction",
+        name,
+        "pattern",
+        [entry(
+            leaf_id,
+            name,
+            plain,
+            "需要明确触发、阈值、取消、边界和键盘替代路径的复杂交互",
+            params,
+            ["follow", "threshold", "snap", "interruption"],
+            ["未达到阈值不能触发", "快速重复操作不叠加", "组件卸载时清理定时器和动画"],
+            state_machine=states,
+            accessibility=accessibility,
+            acceptance=["60fps", "手势和键盘结果一致", "取消后状态完全复位"],
+        )],
+        ["design-gesture", "implement-gesture", "audit-gesture"],
+    )
+
 # Dashboard terms and reusable style template.
 dashboard_entries = {
     "warm-minimal": ("暖调留白型", "奶油底色、单一黄色强调、细边框和弱阴影，保留呼吸感。", ["#F7F3EA", "一个主强调色", "圆角克制", "弱阴影"]),
@@ -240,6 +318,10 @@ dashboard_entries = {
     "immersive-atmosphere": ("氛围沉浸型", "深色底、雾面渐变、玻璃卡片和轻微动态光斑。", ["GPU 负载预算", "移动端降级", "模糊光斑"]),
     "image-led-content": ("图卡内容型", "让真实图片成为主角，文字叠加且只保留一个强调色。", ["大图卡片", "文字叠加", "单一 CTA 色"]),
     "layout-patterns": ("高级布局模式", "用错位、大图、非对称、层叠、留白和破格出血建立布局性格。", ["错位按 8/12/16px 节奏", "7:3 或 8:2 比例", "只破一处网格", "安全区内留信息"]),
+    "grid-glass-dashboard": ("方格纸玻璃卡 Dashboard", "用 44px 方格纸做底，让半透明白玻璃卡透出底层网格，指标按数值形成阶梯。", ["44px 网格底", "半透明白玻璃", "指标阶梯排列", "实心/斜纹/渐变填充"]),
+    "grouped-sidebar-dashboard": ("分组侧边栏 Dashboard", "把导航拆成三组并用大留白分隔，主区用超大细体字、三组数字和横向比例条建立节奏。", ["三组导航", "10px 大写灰字组名", "底部头像/用量条", "横向比例条替代饼图"]),
+    "single-dark-accent-dashboard": ("单深色单强调色 Dashboard", "整页只保留一条深色侧边栏和一个强调色，当前项、主按钮和命中图表共享同一强调色。", ["唯一深色侧边栏", "单一强调色", "侧栏底部强调色卡片", "其余区域保持浅色"]),
+    "tonal-dark-dashboard": ("暗底明度分层 Dashboard", "近黑底上只用明度区分卡片层级，不画描边；主读数放大，日期用圆点阵列表达。", ["近黑底", "卡片亮一档", "无描边", "超大主读数", "圆点阵列+斜纹空格"]),
 }
 for leaf_id, (name, plain, params) in dashboard_entries.items():
     add_leaf(f"terms/dashboard/{leaf_id}.json", leaf_id, "digital-product-uiux", "dashboard-design", name, "pattern", [entry(leaf_id, name, plain, "Dashboard 需要有明确审美方向且避免模板化", params, ["design-tokens", "layout-patterns"], ["不要所有卡片一样大", "不要默认蓝紫渐变", "不要模板化侧边栏+四张 KPI 卡"])], ["design-dashboard", "audit-dashboard"])
@@ -251,6 +333,152 @@ dump("templates/dashboard/dashboard-style-system.json", {
     "output_contract": ["页面结构", "色彩规范", "组件规范", "可直接给 AI 的提示词"],
     "forbidden_defaults": ["默认蓝紫渐变", "所有卡片一样大", "满屏圆角矩形", "过多颜色和图标", "模板化侧边栏+顶栏+四张 KPI 卡"]
 })
+
+# Dashboard recipes that need their own routing leaf because each one changes
+# the page's primary visual judgment. Keep them separate from generic tokens.
+
+# Visual effects are implementation-sensitive: load the performance and
+# degradation contract together with the visual recipe.
+visual_effects = {
+    "liquid-glass-bar": (
+        "液态玻璃栏",
+        "固定导航使用背景模糊、轻微折射和随滚动位移的高光，底色与文字对比度随背景亮度平滑调整。",
+        ["backdrop-filter", "SVG displacement", "高光层", "亮度采样", "scroll-driven animation"],
+        ["桌面端优先使用 GPU 合成", "高光和折射必须限制在导航区域", "文字对比度持续满足可读性"],
+        ["不支持 backdrop-filter 时退化为不透明底色", "低端设备关闭折射只保留模糊或纯色"],
+        ["移动端降低模糊半径", "滚动中避免逐帧读取布局"],
+        ["prefers-reduced-motion 下停用高光流动，保留静态玻璃层"],
+    ),
+    "cover-color-ambient-glow": (
+        "封面取色氛围光",
+        "从封面图提取主色生成外围柔光，换图时用连续插值过渡而不是颜色突变。",
+        ["Canvas/ColorThief 取色", "radial-gradient", "CSS variables", "颜色插值"],
+        ["采样结果需要做饱和度和亮度限幅", "柔光不能降低正文对比度"],
+        ["取色失败时回退到主题色", "设备性能不足时只保留静态渐变"],
+        ["移动端降低光晕半径和不透明度", "图片切换只更新 CSS 变量"],
+        ["减少动态时保留最终主色，取消颜色过渡"],
+    ),
+    "depth-layer-scroll": (
+        "景深分层滚动",
+        "把内容拆为前、中、后三层，按滚动进度驱动不同速度、模糊和亮度，形成可控景深。",
+        ["scroll progress", "translateY", "blur/brightness", "lerp"],
+        ["后层速度更慢且更模糊", "前层速度更快且更清晰", "只动画 transform 和 opacity"],
+        ["不支持滤镜时只保留位移层级", "滚动性能不足时关闭实时 blur"],
+        ["移动端减少层数至两层", "使用 requestAnimationFrame 合并滚动采样"],
+        ["减少动态时取消视差和模糊变化，保留静态层级"],
+    ),
+    "cylindrical-list": (
+        "圆柱卷收列表",
+        "根据列表项距视区中心的距离插值旋转、缩放、亮度和透明度，让中心项突出、边缘项自然卷入。",
+        ["rotateX/rotateY", "scale", "opacity", "中心距离", "scroll snap"],
+        ["中心项必须保持清晰可读", "旋转角度随距离连续变化", "滚动停止后再交给 snap 接管"],
+        ["不支持 3D 时退化为缩放和透明度", "低端设备关闭实时滤镜"],
+        ["移动端限制透视深度和可见项数量", "虚拟列表避免为不可见项计算变换"],
+        ["减少动态时保留中心突出，不播放卷收路径"],
+    ),
+    "liquid-adhesion-drag": (
+        "液滴粘连拖拽",
+        "拖动元素与原位之间生成液态粘连连接，距离增大时颈部收缩，超过阈值后断开并弹性回圆。",
+        ["SVG path/metaball", "Canvas", "贝塞尔曲线", "spring"],
+        ["粘连距离必须有上限", "断裂阈值要有迟滞避免抖动", "断裂后两端分别回弹"],
+        ["不支持 SVG/Canvas 时退化为连接线或无粘连拖拽", "高负载时降低采样频率"],
+        ["移动端减少路径采样点", "拖动期间阻止页面滚动但允许取消"],
+        ["减少动态时取消粘连形变，保留拖拽和命中结果"],
+    ),
+}
+for leaf_id, (name, plain, params, budget, fallback, mobile, reduced_motion) in visual_effects.items():
+    add_leaf(
+        f"terms/visual-effects/{leaf_id}.json",
+        leaf_id,
+        "digital-product-uiux",
+        "visual-effects",
+        name,
+        "technique",
+        [entry(
+            leaf_id,
+            name,
+            plain,
+            "需要有视觉表现但必须同时控制 GPU、移动端和减少动态成本",
+            params,
+            ["performance-budget", "progressive-degradation", "reduced-motion"],
+            ["动效必须可中断", "优先 transform/opacity", "不得以视觉效果掩盖可读性"],
+            performance_budget=budget,
+            fallback=fallback,
+            mobile_degradation=mobile,
+            reduced_motion=reduced_motion,
+            acceptance=["滚动或拖拽保持 60fps 目标", "降级后主任务仍可完成", "视觉层不影响文本对比度"],
+        )],
+        ["design-visual-effect", "implement-visual-effect", "audit-performance"],
+    )
+
+# GSAP entries are provider-specific adapter notes. They describe integration
+# boundaries and cleanup, not a replacement for the official API reference.
+gsap_leaves = {
+    "gsap-core": ("GSAP Core", "tween、duration、easing、stagger 和可中断控制的基础适配。", ["gsap.to/from/fromTo", "duration", "ease", "stagger", "killTweensOf"], ["优先动画 transform/opacity", "从当前值继续而不是重置起点"], ["官方 API 版本变化需复核"]),
+    "gsap-timeline": ("GSAP Timeline", "用时间线、label 和 position parameter 编排连续动效，保持顺序可读且可复用。", ["timeline", "label", "position parameter", "nested timeline", "play/pause/reverse"], ["时间线必须有明确生命周期", "组件卸载时杀掉 timeline"], ["复杂时间线应拆为可测试片段"]),
+    "gsap-scrolltrigger": ("GSAP ScrollTrigger", "用 scrub、pin 和 start/end 将动画绑定到滚动进度，并避免把滚动逻辑散落在组件中。", ["ScrollTrigger", "scrub", "pin", "start/end", "refresh"], ["滚动驱动优先使用 transform", "动态内容变化后显式 refresh"], ["SSR 和无 DOM 环境不能初始化插件"]),
+    "gsap-plugins": ("GSAP Plugins", "按需使用 Flip、Draggable、Observer、SplitText 等插件，插件能力必须和交互目标一一对应。", ["Flip", "Draggable", "Observer", "SplitText", "registerPlugin"], ["只注册实际使用的插件", "拖拽和 Flip 必须有取消与回退路径"], ["插件 API 与授权边界以官方文档为准"]),
+    "gsap-react-lifecycle": ("GSAP React 生命周期", "在 React 中用 useGSAP 或 gsap.context 管理选择器作用域、动画创建和 ctx.revert 清理。", ["useGSAP", "gsap.context", "scope", "ctx.revert", "dependencies"], ["动画创建绑定组件生命周期", "依赖变化先清理旧动画"], ["避免在 render 阶段创建动画"]),
+    "gsap-performance": ("GSAP 性能边界", "把高频动效限制在合成属性，批量更新并减少布局读取，给复杂效果设置设备降级策略。", ["transform", "opacity", "batching", "will-change", "layout thrash"], ["不要连续写 width/height/top/left", "will-change 只在短时交互启用"], ["低端设备关闭粒子、滤镜或 3D 透视"]),
+    "gsap-frameworks": ("GSAP 框架适配", "在 Vue、Svelte 等框架中按生命周期创建和销毁上下文，隔离 SSR、hydration 与客户端动画。", ["onMounted/onUnmounted", "onMount/onDestroy", "SSR guard", "hydration", "context cleanup"], ["只在客户端创建动画", "路由切换时完整清理"], ["框架封装层不要隐藏 kill/revert 能力"]),
+}
+for leaf_id, (title, plain, params, constraints, verification) in gsap_leaves.items():
+    add_leaf(
+        f"terms/animation-tool-adapter/{leaf_id}.json",
+        leaf_id,
+        "digital-product-uiux",
+        "animation-tool-adapter",
+        title,
+        "technique",
+        [entry(
+            leaf_id,
+            title,
+            plain,
+            "用户明确指定 GSAP，或项目已经采用 GSAP 作为动效实现层",
+            params,
+            ["continuous-interaction", "performance-budget", "interruption"],
+            constraints,
+            aliases=["GSAP", title.lower()],
+            provider="GSAP",
+            provider_specific=True,
+            verification_required=True,
+            verification_note=verification,
+            acceptance=["动画创建和销毁可追踪", "快速交互不产生重复回调", "未指定 GSAP 时不强制引入"],
+        )],
+        ["implement-gsap", "audit-gsap"],
+        scope="provider-specific",
+        extra={"do_not_generalize": True, "provider": "GSAP", "verified_at": None, "verification_required": True},
+    )
+
+# A living style guide is a review artifact: it maps design tokens to rendered
+# Light/Dark states and records external preview links as pending references.
+add_leaf(
+    "terms/design-system/living-style-guide-preview.json",
+    "living-style-guide-preview",
+    "digital-product-uiux",
+    "design-system",
+    "设计系统活样式预览",
+    "guideline",
+    [entry(
+        "living-style-guide-preview",
+        "Light/Dark 活样式指南",
+        "用可直接打开的预览把色板、字体层级、组件状态和设计令牌映射到真实页面效果。",
+        "需要让设计评审和 AI 在写代码前先确认视觉方向",
+        ["Light/Dark 双主题", "色板与语义色", "字体排印层级", "按钮/输入框/卡片", "hover/click/disabled", "token 到页面效果映射"],
+        ["design-tokens", "dashboard-style-system", "accessibility"],
+        ["预览状态必须可复现", "颜色不能是唯一状态表达", "外部预览站和品牌资料保持待核验标记"],
+        verification_checklist=["色板、排印、组件状态齐全", "浅色和深色对比度通过", "交互状态与 token 一致", "截图或浏览器验收后再发布"],
+        external_references=[{"kind": "preview-site", "status": "pending-verification", "url": "https://awesome-design-md-preview.vercel.app"}],
+        verified_at=None,
+        verification_required=True,
+    )],
+    ["build-design-system", "preview-design-system", "audit-design-system"],
+    extra={
+        "verification_required": True,
+        "verified_at": None,
+        "external_reference_policy": "外部预览资源只作待核验线索，不作为运行时事实",
+    },
+)
 
 # Eight AI-feedable component descriptions.
 components = {
@@ -431,11 +659,28 @@ keywords = {
     "reverse-animation": ["反向动画", "归位", "删除动画", "恢复动画"],
     "flip-reentry": ["FLIP", "列表恢复", "原索引", "共享元素"],
     "motion-accessibility": ["aria", "读屏", "键盘", "减少动态", "prefers-reduced-motion"],
-    "follow": ["跟随", "跟手", "连续", "惯性"], "threshold": ["阈值", "触发条件", "断开"], "snap": ["吸附", "锚点", "回弹"],
+    "follow": ["跟随", "跟手", "惯性"], "threshold": ["阈值", "触发条件", "断开"], "snap": ["吸附", "锚点", "回弹"],
     "velocity-inheritance": ["速度继承", "释放速度", "摩擦"], "interruption": ["中断", "快速连点", "动画接管"],
     **{k: [v[0], k.replace('-', ' ')] for k, v in interaction_12.items()},
     **{k: [v[0], "dashboard", "后台"] for k, v in dashboard_entries.items()},
     **{k: [v[0], "组件", "AI 生成"] for k, v in components.items()},
+    **{
+        k: [v[0].replace("列表", ""), k.replace("-", " ")]
+        for k, v in continuous_patterns.items()
+    },
+    **{
+        k: [v[0].replace("列表", ""), k.replace("-", " ")]
+        for k, v in advanced_interactions.items()
+    },
+    **{
+        k: [v[0].replace("列表", ""), k.replace("-", " "), *v[2][:2]]
+        for k, v in visual_effects.items()
+    },
+    **{
+        k: [v[0], k.replace("-", " "), *v[2][:2]]
+        for k, v in gsap_leaves.items()
+    },
+    "living-style-guide-preview": ["活样式指南", "Light", "Dark", "设计系统", "预览", "token"],
     "character-ip": ["角色 IP", "三视图", "周边", "一致性", "毛绒玩偶"],
     "gpui-desktop-web": ["GPUIX", "Metal", "DirectX", "Vulkan", "WebGPU", "WebGL2"],
     "gpui-mobile": ["GPUIX", "iOS", "Android", "移动端", "gpui-mobile"],

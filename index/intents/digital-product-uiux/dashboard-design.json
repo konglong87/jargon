@@ -8,11 +8,15 @@
       "action": "设计",
       "object": "数据后台",
       "leaf_refs": [
+        "grid-glass-dashboard",
+        "grouped-sidebar-dashboard",
         "high-contrast",
         "image-led-content",
         "immersive-atmosphere",
         "layout-patterns",
         "minimal-data",
+        "single-dark-accent-dashboard",
+        "tonal-dark-dashboard",
         "warm-minimal"
       ]
     },
@@ -21,11 +25,15 @@
       "action": "评审",
       "object": "后台审美",
       "leaf_refs": [
+        "grid-glass-dashboard",
+        "grouped-sidebar-dashboard",
         "high-contrast",
         "image-led-content",
         "immersive-atmosphere",
         "layout-patterns",
         "minimal-data",
+        "single-dark-accent-dashboard",
+        "tonal-dark-dashboard",
         "warm-minimal"
       ]
     }

@@ -66,6 +66,25 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "before-after-slider",
+      "keywords": [
+        "前后对比滑块",
+        "before after slider"
+      ],
+      "path": "terms/interaction/advanced/before-after-slider.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "bottom-sheet",
       "keywords": [
         "阻尼弹性底部抽屉",
@@ -97,6 +116,25 @@
       "intent_ids": [
         "design-interaction",
         "implement-animation"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "button-stepper-morph",
+      "keywords": [
+        "按钮变步进器",
+        "button stepper morph"
+      ],
+      "path": "terms/interaction/continuous/button-stepper-morph.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -235,6 +273,27 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "cover-color-ambient-glow",
+      "keywords": [
+        "封面取色氛围光",
+        "cover color ambient glow",
+        "Canvas/ColorThief 取色",
+        "radial-gradient"
+      ],
+      "path": "terms/visual-effects/cover-color-ambient-glow.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "visual-effects",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-visual-effect",
+        "implement-visual-effect",
+        "audit-performance"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "cross-platform-rendering",
       "keywords": [
         "跨平台渲染边界",
@@ -249,6 +308,27 @@
       "intent_ids": [
         "compare-platform",
         "choose-renderer"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "cylindrical-list",
+      "keywords": [
+        "圆柱卷收",
+        "cylindrical list",
+        "rotateX/rotateY",
+        "scale"
+      ],
+      "path": "terms/visual-effects/cylindrical-list.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "visual-effects",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-visual-effect",
+        "implement-visual-effect",
+        "audit-performance"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -292,6 +372,27 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "depth-layer-scroll",
+      "keywords": [
+        "景深分层滚动",
+        "depth layer scroll",
+        "scroll progress",
+        "translateY"
+      ],
+      "path": "terms/visual-effects/depth-layer-scroll.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "visual-effects",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-visual-effect",
+        "implement-visual-effect",
+        "audit-performance"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "diffused-glow-border",
       "keywords": [
         "动态弥散光晕边框",
@@ -306,6 +407,25 @@
       "intent_ids": [
         "generate-component",
         "spec-component"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "drag-to-absorb",
+      "keywords": [
+        "拖到目标吸入",
+        "drag to absorb"
+      ],
+      "path": "terms/interaction/advanced/drag-to-absorb.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -343,6 +463,25 @@
       "intent_ids": [
         "generate-component",
         "spec-component"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "fab-panel-morph",
+      "keywords": [
+        "加号展开面板",
+        "fab panel morph"
+      ],
+      "path": "terms/interaction/continuous/fab-panel-morph.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -390,7 +529,6 @@
       "keywords": [
         "跟随",
         "跟手",
-        "连续",
         "惯性"
       ],
       "path": "terms/interaction/follow.json",
@@ -421,6 +559,25 @@
       "intent_ids": [
         "design-frontend",
         "audit-frontend"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "fullscreen-reveal-menu",
+      "keywords": [
+        "菜单铺满全屏",
+        "fullscreen reveal menu"
+      ],
+      "path": "terms/interaction/continuous/fullscreen-reveal-menu.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -488,6 +645,184 @@
       "do_not_generalize": true
     },
     {
+      "leaf_id": "grid-glass-dashboard",
+      "keywords": [
+        "方格纸玻璃卡 Dashboard",
+        "dashboard",
+        "后台"
+      ],
+      "path": "terms/dashboard/grid-glass-dashboard.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "dashboard-design",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-dashboard",
+        "audit-dashboard"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "grouped-sidebar-dashboard",
+      "keywords": [
+        "分组侧边栏 Dashboard",
+        "dashboard",
+        "后台"
+      ],
+      "path": "terms/dashboard/grouped-sidebar-dashboard.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "dashboard-design",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-dashboard",
+        "audit-dashboard"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "gsap-core",
+      "keywords": [
+        "GSAP Core",
+        "gsap core",
+        "gsap.to/from/fromTo",
+        "duration"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-core.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
+      "leaf_id": "gsap-frameworks",
+      "keywords": [
+        "GSAP 框架适配",
+        "gsap frameworks",
+        "onMounted/onUnmounted",
+        "onMount/onDestroy"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-frameworks.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
+      "leaf_id": "gsap-performance",
+      "keywords": [
+        "GSAP 性能边界",
+        "gsap performance",
+        "transform",
+        "opacity"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-performance.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
+      "leaf_id": "gsap-plugins",
+      "keywords": [
+        "GSAP Plugins",
+        "gsap plugins",
+        "Flip",
+        "Draggable"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-plugins.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
+      "leaf_id": "gsap-react-lifecycle",
+      "keywords": [
+        "GSAP React 生命周期",
+        "gsap react lifecycle",
+        "useGSAP",
+        "gsap.context"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-react-lifecycle.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
+      "leaf_id": "gsap-scrolltrigger",
+      "keywords": [
+        "GSAP ScrollTrigger",
+        "gsap scrolltrigger",
+        "ScrollTrigger",
+        "scrub"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-scrolltrigger.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
+      "leaf_id": "gsap-timeline",
+      "keywords": [
+        "GSAP Timeline",
+        "gsap timeline",
+        "timeline",
+        "label"
+      ],
+      "path": "terms/animation-tool-adapter/gsap-timeline.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "animation-tool-adapter",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "implement-gsap",
+        "audit-gsap"
+      ],
+      "scope": "provider-specific",
+      "do_not_generalize": true
+    },
+    {
       "leaf_id": "high-contrast",
       "keywords": [
         "强对比视觉型",
@@ -502,6 +837,25 @@
       "intent_ids": [
         "design-dashboard",
         "audit-dashboard"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "icon-morph",
+      "keywords": [
+        "图标变形",
+        "icon morph"
+      ],
+      "path": "terms/interaction/continuous/icon-morph.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -583,6 +937,25 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "inline-detail-expand",
+      "keywords": [
+        "展开详情",
+        "inline detail expand"
+      ],
+      "path": "terms/interaction/continuous/inline-detail-expand.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "interruption",
       "keywords": [
         "中断",
@@ -641,6 +1014,48 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "liquid-adhesion-drag",
+      "keywords": [
+        "液滴粘连拖拽",
+        "liquid adhesion drag",
+        "SVG path/metaball",
+        "Canvas"
+      ],
+      "path": "terms/visual-effects/liquid-adhesion-drag.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "visual-effects",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-visual-effect",
+        "implement-visual-effect",
+        "audit-performance"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "liquid-glass-bar",
+      "keywords": [
+        "液态玻璃栏",
+        "liquid glass bar",
+        "backdrop-filter",
+        "SVG displacement"
+      ],
+      "path": "terms/visual-effects/liquid-glass-bar.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "visual-effects",
+      "knowledge_type": "technique",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-visual-effect",
+        "implement-visual-effect",
+        "audit-performance"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "liquid-slider",
       "keywords": [
         "Liquid 液态滑块",
@@ -654,6 +1069,67 @@
       "intent_ids": [
         "design-interaction",
         "implement-animation"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "list-grid-flip",
+      "keywords": [
+        "切换网格",
+        "list grid flip"
+      ],
+      "path": "terms/interaction/continuous/list-grid-flip.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "living-style-guide-preview",
+      "keywords": [
+        "活样式指南",
+        "Light",
+        "Dark",
+        "设计系统",
+        "预览",
+        "token"
+      ],
+      "path": "terms/design-system/living-style-guide-preview.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "design-system",
+      "knowledge_type": "guideline",
+      "entry_count": 1,
+      "intent_ids": [
+        "build-design-system",
+        "preview-design-system",
+        "audit-design-system"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "long-press-preview",
+      "keywords": [
+        "长按浮起预览",
+        "long press preview"
+      ],
+      "path": "terms/interaction/advanced/long-press-preview.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -829,6 +1305,44 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "perspective-carousel",
+      "keywords": [
+        "景随图换轮播",
+        "perspective carousel"
+      ],
+      "path": "terms/interaction/advanced/perspective-carousel.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "press-and-hold-confirm",
+      "keywords": [
+        "按住蓄力确认",
+        "press and hold confirm"
+      ],
+      "path": "terms/interaction/advanced/press-and-hold-confirm.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "prompt-blocks",
       "keywords": [
         "图像提示词模块",
@@ -843,6 +1357,25 @@
       "intent_ids": [
         "write-image-prompt",
         "audit-image-prompt"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "radial-menu",
+      "keywords": [
+        "弧形快捷菜单",
+        "radial menu"
+      ],
+      "path": "terms/interaction/advanced/radial-menu.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -886,6 +1419,25 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "rotary-knob",
+      "keywords": [
+        "旋钮转盘",
+        "rotary knob"
+      ],
+      "path": "terms/interaction/advanced/rotary-knob.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "scaling-strategies",
       "keywords": [
         "扩展策略",
@@ -900,6 +1452,63 @@
       "intent_ids": [
         "design-scale",
         "plan-migration"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "scroll-header-collapse",
+      "keywords": [
+        "顶栏随滚动收起",
+        "scroll header collapse"
+      ],
+      "path": "terms/interaction/continuous/scroll-header-collapse.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "search-expand",
+      "keywords": [
+        "搜索框展开",
+        "search expand"
+      ],
+      "path": "terms/interaction/continuous/search-expand.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "segmented-progress",
+      "keywords": [
+        "分段进度条",
+        "segmented progress"
+      ],
+      "path": "terms/interaction/advanced/segmented-progress.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -943,6 +1552,25 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "single-dark-accent-dashboard",
+      "keywords": [
+        "单深色单强调色 Dashboard",
+        "dashboard",
+        "后台"
+      ],
+      "path": "terms/dashboard/single-dark-accent-dashboard.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "dashboard-design",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-dashboard",
+        "audit-dashboard"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "skeleton-shimmer",
       "keywords": [
         "Shimmer 骨架落位",
@@ -956,6 +1584,25 @@
       "intent_ids": [
         "design-interaction",
         "implement-animation"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "slide-to-confirm",
+      "keywords": [
+        "滑动确认组件",
+        "slide to confirm"
+      ],
+      "path": "terms/interaction/advanced/slide-to-confirm.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "gesture-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-gesture",
+        "implement-gesture",
+        "audit-gesture"
       ],
       "scope": "general",
       "do_not_generalize": false
@@ -1054,6 +1701,44 @@
       "do_not_generalize": false
     },
     {
+      "leaf_id": "submit-state-machine",
+      "keywords": [
+        "提交状态反馈",
+        "submit state machine"
+      ],
+      "path": "terms/interaction/continuous/submit-state-machine.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "tab-indicator-spring",
+      "keywords": [
+        "标签指示条",
+        "tab indicator spring"
+      ],
+      "path": "terms/interaction/continuous/tab-indicator-spring.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "continuous-interaction",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-continuous",
+        "implement-continuous",
+        "audit-continuous"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
       "leaf_id": "three-ui-catalog",
       "keywords": [
         "ThreeUI",
@@ -1128,6 +1813,25 @@
       "intent_ids": [
         "define-tokens",
         "audit-tokens"
+      ],
+      "scope": "general",
+      "do_not_generalize": false
+    },
+    {
+      "leaf_id": "tonal-dark-dashboard",
+      "keywords": [
+        "暗底明度分层 Dashboard",
+        "dashboard",
+        "后台"
+      ],
+      "path": "terms/dashboard/tonal-dark-dashboard.json",
+      "domain_id": "digital-product-uiux",
+      "subdomain_id": "dashboard-design",
+      "knowledge_type": "pattern",
+      "entry_count": 1,
+      "intent_ids": [
+        "design-dashboard",
+        "audit-dashboard"
       ],
       "scope": "general",
       "do_not_generalize": false

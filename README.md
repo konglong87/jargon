@@ -6,7 +6,7 @@
 
 <p>
   <img src="https://img.shields.io/badge/19%20domains-indexed-20a464" alt="19 domains indexed">
-  <img src="https://img.shields.io/badge/63%20leaf%20packages-progressive-6d5dfc" alt="63 progressive leaf packages">
+  <img src="https://img.shields.io/badge/99%20leaf%20packages-progressive-6d5dfc" alt="99 progressive leaf packages">
   <img src="https://img.shields.io/badge/npx-first-f59e0b" alt="npx first">
   <img src="https://img.shields.io/badge/LLM-on--demand-111827" alt="LLM on demand">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-111827" alt="MIT License"></a>
@@ -102,7 +102,7 @@ flowchart LR
 当前已建立：
 
 - 19 个根领域入口
-- 63 个可独立加载的叶子包
+- 99 个可独立加载的叶子包
 - 5 级加载协议
 - 7 种知识类型：术语、模式、技巧、规范、参数、模板、平台研究
 - 非空运行时索引和本地查询器
@@ -130,7 +130,15 @@ python3 scripts/query-index.py "GPUIX 能不能跑移动端？"
 
 ### UI/UX
 
-覆盖撤销条、FLIP 反向归位、跟随/阈值/吸附、速度继承、可中断动画、12 种高级交互、Dashboard 五种视觉方向、六种布局模式、8 个可投喂给 AI 的组件描述，以及键盘、读屏和 `prefers-reduced-motion` 约束。
+覆盖撤销条、FLIP 反向归位、跟随/阈值/吸附、速度继承、可中断动画、12 种基础动效、10 种连续交互与高级手势模式、Dashboard 视觉配方、5 种视觉效果、GSAP 适配边界、8 个可投喂给 AI 的组件描述，以及键盘、读屏和 `prefers-reduced-motion` 约束。
+
+连续交互包把搜索框、FAB 面板、提交状态、图标变形、标签指示条、步进器、列表展开、FLIP 布局切换、滚动收起和全屏揭示拆成独立叶子；高级手势包覆盖按住确认、旋钮、前后对比、弧形菜单、滑动确认、长按预览、拖拽吸入、分段进度和透视轮播。每个模式都带状态机、阈值、取消路径、键盘替代和验收标准。
+
+视觉效果包会把实现参数和性能边界一起加载：液态玻璃栏、封面取色氛围光、景深分层滚动、圆柱卷收列表、液滴粘连拖拽。每条记录同时提供性能预算、降级方案、移动端处理和减少动态策略，避免只复制视觉效果而忽略运行成本。
+
+GSAP 适配包只在用户指定 GSAP 或项目已经使用 GSAP 时加载，覆盖 Core、Timeline、ScrollTrigger、Plugins、React 生命周期、性能和框架生命周期。它保留 provider-specific 与版本核验边界，不把工具 API 当作通用浏览器事实。
+
+设计系统包提供 Light/Dark 活样式预览规范：色板、排印、按钮/输入框/卡片状态、token 到页面效果的映射和截图验收清单。外部预览站只作为待核验参考，不写入运行时事实。
 
 ### AIGC
 
@@ -159,6 +167,9 @@ terms/
 ├── interaction/              # 动效、撤销、跟手、阈值、吸附
 ├── dashboard/                # Dashboard 视觉方向
 ├── component-design/         # AI 可生成组件描述
+├── visual-effects/            # 玻璃、光晕、景深和液态交互
+├── animation-tool-adapter/   # GSAP 等动画工具适配
+├── design-system/            # Light/Dark 活样式预览规范
 ├── character-ip/             # AIGC 角色一致性
 ├── platform-research/        # 平台专属研究
 ├── software-engineering/     # 软件架构叶子包
