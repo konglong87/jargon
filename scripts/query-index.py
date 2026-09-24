@@ -72,15 +72,32 @@ def main() -> None:
             ranked.append((route_score, route))
     ranked.sort(key=lambda pair: (-pair[0], pair[1]["entry_count"], pair[1]["leaf_id"]))
 
-    # If the query is broad, use the first matching routes only; never dump the whole index.
-    selected = ranked[:max_leaves]
+    # Keep routes close to the best match within each selected subdomain. This
+    # preserves one strong route per relevant subdomain while preventing a
+    # specific request such as "GSAP timeline" from loading every leaf that
+    # shares only the provider keyword.
+    initial_selected = ranked[:max_leaves]
     selected_subdomains = []
-    for _, route in selected:
+    for _, route in initial_selected:
         key = (route["domain_id"], route["subdomain_id"])
         if key not in selected_subdomains:
             selected_subdomains.append(key)
     selected_subdomains = selected_subdomains[: limits["max_subdomains"]]
-    selected = [pair for pair in selected if (pair[1]["domain_id"], pair[1]["subdomain_id"]) in selected_subdomains][:max_leaves]
+    score_margin = limits.get("route_score_margin", 0)
+    selected = []
+    for subdomain in selected_subdomains:
+        subdomain_ranked = [
+            pair for pair in ranked
+            if (pair[1]["domain_id"], pair[1]["subdomain_id"]) == subdomain
+        ]
+        if not subdomain_ranked:
+            continue
+        top_score = subdomain_ranked[0][0]
+        selected.extend(
+            pair for pair in subdomain_ranked
+            if pair[0] >= max(1, top_score - score_margin)
+        )
+    selected = selected[:max_leaves]
 
     # Resolve the selected hierarchy before loading leaf content. The runtime
     # router stays small and hot, while these indexes provide the authoritative

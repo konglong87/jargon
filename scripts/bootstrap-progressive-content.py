@@ -71,6 +71,7 @@ root["loading_policy"] = {
     "max_intents_scope": "per_subdomain",
     "max_leaf_packages": 8,
     "max_entries_per_leaf": 30,
+    "route_score_margin": 2,
     "search_fallback": "ask-before-network",
 }
 domain_specs = {

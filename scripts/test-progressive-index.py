@@ -69,6 +69,11 @@ design_system = next(item for item in design_system_result["matches"] if item["l
 assert design_system["entries"][0]["verification_required"] is True, "design system verification flag was lost"
 assert design_system["entries"][0]["external_references"], "design system external reference missing"
 
+raw = subprocess.check_output(["python3", str(QUERY), "GSAP timeline"], text=True)
+gsap_timeline_result = json.loads(raw)
+assert gsap_timeline_result["matches"][0]["leaf_id"] == "gsap-timeline", "specific GSAP query lost top match"
+assert gsap_timeline_result["trace"]["loaded_leaf_count"] <= 2, "specific GSAP query loaded unrelated leaves"
+
 for option in ("--max-leaves", "--max-entries"):
     completed = subprocess.run(
         ["python3", str(QUERY), "撤销", option, "0"],

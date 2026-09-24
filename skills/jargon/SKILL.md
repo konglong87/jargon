@@ -17,7 +17,7 @@ Jargon 只做一件事：帮助用户把模糊表达说具体。
 
 1. 读取 `index/root.json`，只判断候选根领域和加载上限。
 2. 读取对应的 `index/domains/<domain_id>.json`，最多选择 `max_subdomains` 个子域。
-3. 读取子域的 `index/intents/<subdomain_id>.json`，最多选择 `max_intents` 个意图。
+3. 读取子域的 `index/intents/<domain_id>/<subdomain_id>.json`，最多选择 `max_intents` 个意图。
 4. 读取 `index/runtime.json` 做关键词/语义路由，只加载命中的叶子路径。
 5. 每个叶子最多取 `max_entries_per_leaf` 条，优先取与用户表达最接近的条目。复杂交互优先读取同一叶子中的 `state_machine`、阈值、取消路径和 `acceptance`，不要只拿一段视觉描述。
 6. 用语义匹配识别术语、同义词、相关维度和缺失参数。

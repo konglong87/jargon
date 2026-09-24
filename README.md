@@ -189,7 +189,7 @@ scripts/bootstrap-progressive-content.py # 可重复生成内容与索引
 
 1. 在 `index/root.json` 增加根领域和 `subdomain_index`。
 2. 新建 `index/domains/<domain_id>.json`，只放子域摘要和加载入口。
-3. 为每个子域新建 `index/intents/<subdomain_id>.json`，只放意图和叶子引用。
+3. 为每个子域新建 `index/intents/<domain_id>/<subdomain_id>.json`，只放意图和叶子引用。
 4. 在 `terms/<area>/` 增加独立叶子包；每个叶子只描述一个术语、模式、技巧或模板集合。
 5. 在 `index/leaves.json` 登记叶子元数据，在 `index/runtime.json` 增加关键词路由。
 6. 跑校验和端到端查询：
